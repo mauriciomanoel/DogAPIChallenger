@@ -1,4 +1,4 @@
-package com.mauricio.dogapichallenger.ui.dashboard
+package com.mauricio.dogapichallenger.ui.dogbreeds
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.mauricio.dogapichallenger.R
-import com.mauricio.dogapichallenger.databinding.FragmentDashboardBinding
+import com.mauricio.dogapichallenger.databinding.FragmentDogBreedsBinding
 
-class DashboardFragment : Fragment() {
+class DogBreedsFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private lateinit var dogBreedsViewModel: DogBreedsViewModel
+    private var _binding: FragmentDogBreedsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        dogBreedsViewModel =
+            ViewModelProvider(this).get(DogBreedsViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentDogBreedsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        val textView: TextView = binding.textHome
+        dogBreedsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

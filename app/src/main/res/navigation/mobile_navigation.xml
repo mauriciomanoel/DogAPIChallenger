@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_dog_breeds">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.mauricio.dogapichallenger.ui.home.HomeFragment"
+        android:id="@+id/navigation_dog_breeds"
+        android:name="com.mauricio.dogapichallenger.ui.dogbreeds.DogBreedsFragment"
         android:label="@string/title_dog_breeds"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_dog_breeds" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.mauricio.dogapichallenger.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_search_screen"
+        android:name="com.mauricio.dogapichallenger.ui.searchscreen.SearchScreenFragment"
         android:label="@string/title_search_screen"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_search_screen" />
 
 </navigation>
