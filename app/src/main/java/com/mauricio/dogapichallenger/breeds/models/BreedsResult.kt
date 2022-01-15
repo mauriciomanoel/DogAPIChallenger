@@ -1,11 +1,14 @@
 package com.mauricio.dogapichallenger.breeds
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 typealias BreedsResult = ArrayList<Breed>
 
 data class Breed (
+    @SerializedName("bred_for")
     val bredFor: String,
+    @SerializedName("breed_group")
     val breedGroup: String,
     val height: Eight,
     val id: Long,
@@ -13,11 +16,10 @@ data class Breed (
     val lifeSpan: String,
     val name: String,
     val origin: String,
+    @SerializedName("reference_image_id")
     val referenceImageID: String,
     val temperament: String,
-    val weight: Eight,
-    val countryCode: String? = null
-): Serializable
+    val weight: Eight): Serializable
 
 data class Eight (
     val imperial: String,
