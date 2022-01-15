@@ -2,4 +2,8 @@
     <string name="app_name">Dog API Challenger</string>
     <string name="title_dog_breeds">Dog Breeds</string>
     <string name="title_search_screen">Search Screen</string>
+    <string name="title_breed_name">Breed Name</string>
+    <string name="title_breed_category">Breed Category</string>
+    <string name="title_origin">Origin</string>
+    <string name="title_temperament">Temperament</string>
 </resources>
