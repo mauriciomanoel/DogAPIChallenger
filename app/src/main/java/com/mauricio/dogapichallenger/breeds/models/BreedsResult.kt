@@ -1,8 +1,8 @@
 package com.mauricio.dogapichallenger.breeds
 
-typealias BreedsResult = ArrayList<Breeds>
+typealias BreedsResult = ArrayList<Breed>
 
-data class Breeds (
+data class Breed (
     val bredFor: String,
     val breedGroup: String,
     val height: Eight,
