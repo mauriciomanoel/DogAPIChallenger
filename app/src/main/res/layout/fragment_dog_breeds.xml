@@ -21,35 +21,61 @@
         android:layout_height="match_parent"
         tools:context=".breeds.views.DogBreedsFragment">
 
-<!--        <TextView-->
-<!--            android:id="@+id/text_home"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textSize="20sp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <ImageView
+            android:id="@+id/gridViewFormat"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/ic_outline_grid_view_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/listViewFormat"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_outline_view_list_24"
+            app:layout_constraintBottom_toBottomOf="@+id/gridViewFormat"
+            app:layout_constraintStart_toEndOf="@+id/gridViewFormat"
+            app:layout_constraintTop_toTopOf="@+id/gridViewFormat" />
+
+        <ImageView
+            android:id="@+id/orderByAscending"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_sort_alphabetical_ascending"
+            app:layout_constraintBottom_toBottomOf="@+id/gridViewFormat"
+            app:layout_constraintEnd_toStartOf="@+id/orderByDescending"
+            app:layout_constraintTop_toTopOf="@+id/gridViewFormat"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/orderByDescending"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/ic_sort_alphabetical_descending"
+            app:layout_constraintBottom_toBottomOf="@+id/gridViewFormat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gridViewFormat" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/breeds_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="4dp"
             android:adapter="@{breedsAdapter}"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            app:columns='@{columns}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_manager='@{layoutManager}'
-            app:columns='@{columns}' />
+            app:layout_constraintTop_toBottomOf="@+id/gridViewFormat"
+            app:layout_manager='@{layoutManager}' />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

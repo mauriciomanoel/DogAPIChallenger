@@ -15,5 +15,6 @@ object ImageViewBinding {
             .load(source)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(image)
+
     }
 }

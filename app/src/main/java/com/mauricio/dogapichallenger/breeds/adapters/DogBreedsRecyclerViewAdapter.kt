@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
+import com.mauricio.dogapichallenger.BR
 
 class DogBreedsRecyclerViewAdapter(
     private val values: List<Breed>
@@ -14,7 +15,6 @@ class DogBreedsRecyclerViewAdapter(
         parent: ViewGroup,
         viewType: Int
     ): DogBreedsRecyclerViewAdapter.ViewHolder {
-
         return ViewHolder(
             ItemDogBreedsBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -25,14 +25,19 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
-
+        values[position]?.let { breed ->
+            holder.bind(breed)
+        }
     }
 
     override fun getItemCount() = values.size
 
-    inner class ViewHolder(binding: ItemDogBreedsBinding) : RecyclerView.ViewHolder(binding.root) {
-//        val idView: TextView = binding.itemNumber
-//        val contentView: TextView = binding.content
-//        val imageView: ImageView = binding.imageView
+    inner class ViewHolder(var binding: ItemDogBreedsBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(breed: Breed) {
+            binding.setVariable(BR.urlPhoto, breed.image.url)
+            binding.setVariable(BR.name, breed.name)
+            binding.executePendingBindings()
+        }
     }
 }
+
