@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.mauricio.dogapichallenger.AndroidDogApiApplication
 import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
+import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.viewmodel.DogBreedsViewModel
 import com.mauricio.dogapichallenger.databinding.FragmentDogBreedsBinding
 import com.mauricio.dogapichallenger.utils.Constant.DEFAULT_COLUNS
@@ -21,7 +21,7 @@ import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_ASCENDING
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_DESCENDING
 import javax.inject.Inject
 
-class DogBreedsFragment : Fragment() {
+class DogBreedsFragment : Fragment(), IOnClickEvent {
 
     @Inject
     lateinit var viewModel: DogBreedsViewModel
@@ -29,6 +29,7 @@ class DogBreedsFragment : Fragment() {
     private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
     private val listBreeds = ArrayList<Breed>()
     private lateinit var mContext: Context
+    private var callback: IOnClickEvent? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,6 +39,7 @@ class DogBreedsFragment : Fragment() {
         super.onAttach(context)
         mContext = context
         (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
+        callback = (activity as? IOnClickEvent)
     }
 
     override fun onCreateView(
@@ -49,15 +51,19 @@ class DogBreedsFragment : Fragment() {
         _binding = FragmentDogBreedsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.columns = 2
-        binding.layoutManager = "grid"
+        initializeParameters()
         initListeners()
         initAdapters()
         initObservers()
+
         viewModel.getBreeds()
         return root
     }
 
+    private fun initializeParameters() {
+        binding.columns = DEFAULT_COLUNS
+        binding.layoutManager = GRID_VIEW_FORMAT
+    }
     private fun initListeners() {
         binding.gridViewFormat.setOnClickListener {
             binding.columns = DEFAULT_COLUNS
@@ -88,13 +94,18 @@ class DogBreedsFragment : Fragment() {
             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
         })
     }
+
     private fun initAdapters() {
-        breedsAdapter = DogBreedsRecyclerViewAdapter(listBreeds)
+        breedsAdapter = DogBreedsRecyclerViewAdapter(listBreeds, this)
         binding.breedsAdapter = breedsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClicked(value: Breed) {
+        callback?.onItemClicked(value)
     }
 }

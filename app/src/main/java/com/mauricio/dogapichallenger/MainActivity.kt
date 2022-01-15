@@ -1,5 +1,6 @@
 package com.mauricio.dogapichallenger
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +8,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
+import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
+import com.mauricio.dogapichallenger.breeds.views.BreedDetailActivity
 import com.mauricio.dogapichallenger.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IOnClickEvent {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -31,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onItemClicked(value: Breed) {
+        val intent = Intent(this, BreedDetailActivity::class.java).apply {
+            putExtra(EXTRA_BREED, value)
+        }
+        startActivity(intent)
     }
 
 }

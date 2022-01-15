@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
 import com.mauricio.dogapichallenger.BR
+import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 
 class DogBreedsRecyclerViewAdapter(
-    private val values: List<Breed>
+    private val values: List<Breed>, private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -26,6 +27,9 @@ class DogBreedsRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
         values[position]?.let { breed ->
+            holder.binding.itemDogBreed.setOnClickListener {
+                callback.onItemClicked(breed)
+            }
             holder.bind(breed)
         }
     }
