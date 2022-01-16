@@ -19,7 +19,6 @@ import javax.inject.Singleton
 interface AppComponent : AndroidInjector<AndroidDogApiApplication> {
     fun inject(application: Application)
     fun inject(viewModel: DogBreedsViewModel)
-//    fun inject(viewModel: CartViewModel)
 
     @Component.Builder
     interface Builder {

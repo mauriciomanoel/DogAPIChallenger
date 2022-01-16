@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_search_screen"
-        android:name="com.mauricio.dogapichallenger.ui.searchscreen.SearchScreenFragment"
+        android:name="com.mauricio.dogapichallenger.breeds.views.SearchScreenFragment"
         android:label="@string/title_search_screen"
         tools:layout="@layout/fragment_search_screen" />
 

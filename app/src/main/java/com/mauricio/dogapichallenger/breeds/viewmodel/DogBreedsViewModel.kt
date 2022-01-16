@@ -17,17 +17,17 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
 
     @Inject
     lateinit var repository: BreedsRepository
-
-    //initializing the necessary components and classes
-    init {
-        DaggerAppComponent.builder().app(application).build().inject(this)
-    }
-
+    private var listBreedsName = ArrayList<String>()
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String> = _messageError
 
     private val _breeds = MutableLiveData<ArrayList<Breed>>()
     val breeds: LiveData<ArrayList<Breed>> = _breeds
+
+    //initializing the necessary components and classes
+    init {
+        DaggerAppComponent.builder().app(application).build().inject(this)
+    }
 
     fun getBreeds() {
         repository.getBreeds(::processBreeds)
@@ -37,12 +37,17 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
 
         val values = repository.getBreeds()
         val valuesSorted = when(sortBy) {
-            ORDER_BY_ASCENDING ->  values.sortedBy { it.name }
-            else -> values.sortedByDescending { it.name }
+            ORDER_BY_ASCENDING ->  values?.sortedBy { it.name }
+            else -> values?.sortedByDescending { it.name }
         }
         _breeds.apply {
             postValue(ArrayList(valuesSorted))
         }
+    }
+
+    fun getBreedsName(): ArrayList<String> {
+        listBreedsName = repository.getBreedsName()
+        return listBreedsName
     }
 
     private fun processBreeds(result: BreedsResult?, e: Throwable?) {
