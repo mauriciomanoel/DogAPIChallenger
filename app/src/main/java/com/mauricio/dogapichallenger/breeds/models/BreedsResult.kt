@@ -4,6 +4,15 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 typealias BreedsResult = ArrayList<Breed>
+typealias BreedsByIdResult = ArrayList<BreedResultElement>
+
+data class BreedResultElement (
+    val breeds: List<Breed>,
+    val height: Long,
+    val id: String,
+    val url: String,
+    val width: Long
+) : Serializable
 
 data class Breed (
     @SerializedName("bred_for")
@@ -12,12 +21,12 @@ data class Breed (
     val breedGroup: String,
     val height: Eight,
     val id: Long,
-    val image: Image,
+    val image: Image? = null,
     val lifeSpan: String,
     val name: String,
     val origin: String,
     @SerializedName("reference_image_id")
-    val referenceImageID: String,
+    val referenceImageID: String? = null,
     val temperament: String,
     val weight: Eight): Serializable
 

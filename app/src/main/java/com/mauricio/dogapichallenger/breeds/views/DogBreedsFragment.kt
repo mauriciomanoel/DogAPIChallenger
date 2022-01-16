@@ -105,7 +105,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
         _binding = null
     }
 
-    override fun onItemClicked(value: Breed) {
+    override fun onItemClicked(value: Any) {
         callback?.onItemClicked(value)
     }
 }

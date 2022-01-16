@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.mauricio.dogapichallenger.R
 import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
 import com.mauricio.dogapichallenger.databinding.ActivityBreedDetailBinding
 
@@ -13,7 +14,6 @@ class BreedDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBreedDetailBinding
 
-    private fun getBreedFromIntent() = intent.getSerializableExtra(EXTRA_BREED) as? Breed
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +22,32 @@ class BreedDetailActivity : AppCompatActivity() {
         binding = ActivityBreedDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getBreedFromIntent()?.let { breed ->
-            updateView(breed)
-//            Toast.makeText(this, "${breed}", Toast.LENGTH_SHORT).show()
+        getBreedFromIntent()?.let { element ->
+            updateView(element)
         }
     }
 
-    private fun updateView(bread: Breed) {
-        binding.urlPhoto = bread.image.url
-        binding.breedName.text = bread.name
-        binding.breedCategory.text = bread.breedGroup
-        binding.origin.text = bread.origin
-        binding.temperament.text = bread.temperament
+    private fun getBreedFromIntent() = intent.getSerializableExtra(EXTRA_BREED)
+
+    private fun updateView(element: Any) {
+
+        when(element) {
+            is Breed -> {
+                binding.urlPhoto = element.image?.url
+                binding.breedName.text = element.name
+                binding.breedCategory.text = element.breedGroup
+                binding.origin.text = element.origin
+                binding.temperament.text = element.temperament
+            }
+            is BreedResultElement -> {
+                binding.urlPhoto = element.url
+                binding.breedName.text = element.breeds.get(0).name
+                binding.breedCategory.text = element.breeds.get(0).breedGroup
+                binding.origin.text = element.breeds.get(0).origin
+                binding.temperament.text = element.breeds.get(0).temperament
+            }
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

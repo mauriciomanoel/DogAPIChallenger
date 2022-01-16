@@ -11,15 +11,23 @@ import androidx.fragment.app.Fragment
 import com.mauricio.dogapichallenger.databinding.FragmentSearchScreenBinding
 import android.widget.Toast
 import com.mauricio.dogapichallenger.AndroidDogApiApplication
+import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
+import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.viewmodel.DogBreedsViewModel
+import com.mauricio.dogapichallenger.utils.Constant
 import javax.inject.Inject
 
-class SearchScreenFragment : Fragment() {
+class SearchScreenFragment : Fragment(), IOnClickEvent  {
 
     @Inject
     lateinit var viewModel: DogBreedsViewModel
     private var _binding: FragmentSearchScreenBinding? = null
     private lateinit var mContext: Context
+    private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
+    private val listBreeds = ArrayList<BreedResultElement>()
+    private var callback: IOnClickEvent? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,6 +37,7 @@ class SearchScreenFragment : Fragment() {
         super.onAttach(context)
         mContext = context
         (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
+        callback = (activity as? IOnClickEvent)
     }
 
     override fun onCreateView(
@@ -39,10 +48,34 @@ class SearchScreenFragment : Fragment() {
 
         _binding = FragmentSearchScreenBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        initObservers()
+        initAdapters()
         initializeSpinnerData()
+        initializeParameters()
+
         return root
     }
 
+    private fun initializeParameters() {
+        binding.layoutManager = Constant.LIST_VIEW_FORMAT
+    }
+
+    private fun initObservers() {
+        viewModel.breedsBySearch.observe(viewLifecycleOwner, {
+            listBreeds.clear()
+            listBreeds.addAll(it)
+            breedsAdapter.notifyDataSetChanged()
+        })
+        viewModel.messageError.observe(viewLifecycleOwner, { message ->
+            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun initAdapters() {
+        breedsAdapter = DogBreedsRecyclerViewAdapter(listBreeds, this)
+        binding.breedsAdapter = breedsAdapter
+    }
 
     private fun initializeSpinnerData() {
 
@@ -55,6 +88,7 @@ class SearchScreenFragment : Fragment() {
                 binding.spinner.adapter = adapter
                 binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        viewModel.selectedBreedBySearch(position)
                         Toast.makeText(parent.context, "Spinner item $position", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -69,5 +103,9 @@ class SearchScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClicked(value: Any) {
+        callback?.onItemClicked(value)
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.reflect.TypeToken
 import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
 import com.mauricio.dogapichallenger.breeds.BreedsResult
 import com.mauricio.dogapichallenger.network.RetrofitApiService
 import com.mauricio.dogapichallenger.utils.SharedPreferencesUtils
@@ -24,6 +25,19 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         coroutineScope.launch(handler) {
             val breeds = apiService.getBreeds()
             updateLocalBreeds(breeds)
+            process(breeds, null)
+        }
+    }
+
+    fun getBreedsById(breedId: Long, process: (value: BreedsByIdResult?, e: Throwable?) -> Unit) {
+
+        val handler = CoroutineExceptionHandler { _, exception ->
+            println("CoroutineExceptionHandler got $exception")
+            process(null, exception)
+        }
+
+        coroutineScope.launch(handler) {
+            val breeds = apiService.getBreedsById(breedId.toString())
             process(breeds, null)
         }
     }

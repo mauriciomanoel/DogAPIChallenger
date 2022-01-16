@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.views.BreedDetailActivity
@@ -38,9 +39,12 @@ class MainActivity : AppCompatActivity(), IOnClickEvent {
         navView.setupWithNavController(navController)
     }
 
-    override fun onItemClicked(value: Breed) {
+    override fun onItemClicked(value: Any) {
         val intent = Intent(this, BreedDetailActivity::class.java).apply {
-            putExtra(EXTRA_BREED, value)
+            when(value) {
+                is Breed -> putExtra(EXTRA_BREED, value)
+                is BreedResultElement -> putExtra(EXTRA_BREED, value)
+            }
         }
         startActivity(intent)
     }
