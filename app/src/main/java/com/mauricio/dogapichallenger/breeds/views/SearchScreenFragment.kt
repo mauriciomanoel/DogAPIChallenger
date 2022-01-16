@@ -55,14 +55,8 @@ class SearchScreenFragment : Fragment() {
                 binding.spinner.adapter = adapter
                 binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                        when (position) {
-                            0 -> Toast.makeText(parent.context, "Spinner item 1!", Toast.LENGTH_SHORT)
-                                .show()
-                            1 -> Toast.makeText(parent.context, "Spinner item 2!", Toast.LENGTH_SHORT)
-                                .show()
-                            2 -> Toast.makeText(parent.context, "Spinner item 3!", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                        Toast.makeText(parent.context, "Spinner item $position", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 })
