@@ -67,6 +67,9 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
             listBreeds.addAll(it)
             breedsAdapter.notifyDataSetChanged()
         })
+        viewModel.showLoading.observe(viewLifecycleOwner, { showLoading ->
+            binding.showLoading = showLoading
+        })
         viewModel.messageError.observe(viewLifecycleOwner, { message ->
             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
         })
@@ -89,16 +92,12 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
                 binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                         viewModel.selectedBreedBySearch(position)
-                        Toast.makeText(parent.context, "Spinner item $position", Toast.LENGTH_SHORT)
-                            .show()
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 })
             }
         }
-
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

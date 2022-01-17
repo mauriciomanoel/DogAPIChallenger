@@ -9,9 +9,9 @@
         <entry key="app/src/main/res/layout/activity_breed_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_dog_breeds.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_dog_breeds.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_search_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_search_screen.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_dog_breeds.xml" value="0.13496376811594202" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
       </map>

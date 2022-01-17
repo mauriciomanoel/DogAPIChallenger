@@ -61,7 +61,7 @@ class DogBreedsRecyclerViewAdapter(
         }
 
         private fun checkIsEmpty(value: String?): String {
-            if (value.isNullOrBlank()) return "Is not available"
+            if (value.isNullOrBlank()) return context.getString(R.string.is_not_available)
             return value
         }
     }

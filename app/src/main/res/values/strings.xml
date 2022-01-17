@@ -6,4 +6,5 @@
     <string name="title_breed_category">Breed Category</string>
     <string name="title_origin">Origin</string>
     <string name="title_temperament">Temperament</string>
+    <string name="is_not_available">Is not available</string>
 </resources>

@@ -18,7 +18,6 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
 
     @Inject
     lateinit var repository: BreedsRepository
-    private var listBreedsName = ArrayList<String>()
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String> = _messageError
 
@@ -28,17 +27,20 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
     private val _breedsBySearch = MutableLiveData<ArrayList<BreedResultElement>>()
     val breedsBySearch: LiveData<ArrayList<BreedResultElement>> = _breedsBySearch
 
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading: LiveData<Boolean> = _showLoading
+
     //initializing the necessary components and classes
     init {
         DaggerAppComponent.builder().app(application).build().inject(this)
     }
 
     fun getBreeds() {
+        showLoading()
         repository.getBreeds(::processBreeds)
     }
 
     fun orderByBreeds(sortBy: String) {
-
         val values = repository.getBreeds()
         val valuesSorted = when(sortBy) {
             ORDER_BY_ASCENDING ->  values?.sortedBy { it.name }
@@ -57,11 +59,13 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
         val values = repository.getBreeds()
         val breed = values?.get(position)
         breed?.id?.let { breedId ->
+            showLoading()
             repository.getBreedsById(breedId, ::processBreedsBySearch)
         }
     }
 
     private fun processBreeds(result: BreedsResult?, e: Throwable?) {
+        hideLoading()
         result?.let {
             _breeds.apply {
                 postValue(it)
@@ -75,6 +79,7 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
     }
 
     private fun processBreedsBySearch(result: BreedsByIdResult?, e: Throwable?) {
+        hideLoading()
         result?.let {
             _breedsBySearch.apply {
                 postValue(it)
@@ -87,5 +92,12 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
         Log.v("TAG", "$result")
     }
 
+    private fun showLoading() {
+        _showLoading.value = true
+    }
+
+    private fun hideLoading() {
+        _showLoading.value = false
+    }
 
 }
