@@ -1,9 +1,7 @@
 package com.mauricio.dogapichallenger.utils
 
 import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
-import java.lang.Exception
 import java.lang.reflect.Type
 
 object SharedPreferencesUtils {
