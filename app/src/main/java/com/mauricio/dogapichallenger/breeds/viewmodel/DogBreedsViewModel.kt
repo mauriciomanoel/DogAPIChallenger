@@ -12,6 +12,7 @@ import com.mauricio.dogapichallenger.breeds.BreedsResult
 import com.mauricio.dogapichallenger.breeds.repository.BreedsRepository
 import com.mauricio.dogapichallenger.di.component.DaggerAppComponent
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_ASCENDING
+import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 
 class DogBreedsViewModel@Inject constructor(private val application: Application) : ViewModel() {
@@ -55,13 +56,18 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
         return repository.getBreedsName()
     }
 
-    fun selectedBreedBySearch(position: Int) {
+    fun searchBreedByPosition(position: Int) {
         val values = repository.getBreeds()
         val breed = values?.get(position)
         breed?.id?.let { breedId ->
             showLoading()
             repository.getBreedsById(breedId, ::processBreedsBySearch)
         }
+    }
+
+    fun searchBreedById(breedId: Long) {
+        showLoading()
+        repository.getBreedsById(breedId, ::processBreedsBySearch)
     }
 
     private fun processBreeds(result: BreedsResult?, e: Throwable?) {

@@ -15,6 +15,7 @@ import javax.inject.Inject
 class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application)  {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val breeds = ArrayList<Breed>()
 
     fun getBreeds(process: (value: BreedsResult?, e: Throwable?) -> Unit) {
 
@@ -58,12 +59,15 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     }
 
     private fun updateLocalBreeds(values: ArrayList<Breed>) {
+        breeds.clear()
+        breeds.addAll(values)
         SharedPreferencesUtils.save(application, values, KEY_STORE_BREEDS)
     }
 
     fun getBreeds(): ArrayList<Breed>? {
         val listType = object : TypeToken<ArrayList<Breed?>?>() {}.type
-        return SharedPreferencesUtils.get(application, listType, KEY_STORE_BREEDS) as? ArrayList<Breed>
+        val values = SharedPreferencesUtils.get(application, listType, KEY_STORE_BREEDS) as? ArrayList<Breed>
+        return values ?: breeds
     }
 
     fun getBreedsName(): ArrayList<String> {

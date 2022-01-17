@@ -11,6 +11,8 @@ buildscript {
             'navigation_version'              : '2.3.5',
             'lifecycle_version'              : '2.4.0',
             'recyclerview_version'              : '1.2.1',
+            'android_core_testing_version'      : '2.1.0',
+
     ]
     repositories {
         google()

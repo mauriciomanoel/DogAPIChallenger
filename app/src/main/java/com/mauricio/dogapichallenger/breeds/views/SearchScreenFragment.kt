@@ -91,7 +91,7 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
                 binding.spinner.adapter = adapter
                 binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                        viewModel.selectedBreedBySearch(position)
+                        viewModel.searchBreedByPosition(position)
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 })
