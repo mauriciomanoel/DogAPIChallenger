@@ -21,6 +21,6 @@
 - Retrofit
 - Data Bindind
 - Coroutines
-- Hilt
+- Dependency injection with Hilt
 - Glide
 - Gson
