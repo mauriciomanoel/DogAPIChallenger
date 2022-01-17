@@ -21,6 +21,6 @@
 - Retrofit
 - Data Bindind
 - Coroutines
-- Dagger2
+- Hilt
 - Glide
 - Gson
