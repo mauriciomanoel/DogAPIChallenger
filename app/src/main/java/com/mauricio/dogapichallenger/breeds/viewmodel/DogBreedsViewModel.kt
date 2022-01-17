@@ -1,6 +1,5 @@
 package com.mauricio.dogapichallenger.breeds.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,15 +9,13 @@ import com.mauricio.dogapichallenger.breeds.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
 import com.mauricio.dogapichallenger.breeds.BreedsResult
 import com.mauricio.dogapichallenger.breeds.repository.BreedsRepository
-import com.mauricio.dogapichallenger.di.component.DaggerAppComponent
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_ASCENDING
-import org.jetbrains.annotations.TestOnly
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class DogBreedsViewModel@Inject constructor(private val application: Application) : ViewModel() {
+@HiltViewModel
+class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) : ViewModel() {
 
-    @Inject
-    lateinit var repository: BreedsRepository
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String> = _messageError
 
@@ -32,9 +29,9 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
     val showLoading: LiveData<Boolean> = _showLoading
 
     //initializing the necessary components and classes
-    init {
-        DaggerAppComponent.builder().app(application).build().inject(this)
-    }
+//    init {
+//        DaggerAppComponent.builder().app(application).build().inject(this)
+//    }
 
     fun getBreeds() {
         showLoading()

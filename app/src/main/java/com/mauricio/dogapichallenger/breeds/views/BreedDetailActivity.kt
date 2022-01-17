@@ -8,7 +8,9 @@ import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.breeds.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
 import com.mauricio.dogapichallenger.databinding.ActivityBreedDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BreedDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBreedDetailBinding

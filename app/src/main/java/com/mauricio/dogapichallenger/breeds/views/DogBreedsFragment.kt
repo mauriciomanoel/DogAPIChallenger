@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import androidx.fragment.app.Fragment
-import com.mauricio.dogapichallenger.AndroidDogApiApplication
+import androidx.fragment.app.viewModels
 import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
@@ -19,12 +19,13 @@ import com.mauricio.dogapichallenger.utils.Constant.GRID_VIEW_FORMAT
 import com.mauricio.dogapichallenger.utils.Constant.LIST_VIEW_FORMAT
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_ASCENDING
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_DESCENDING
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DogBreedsFragment : Fragment(), IOnClickEvent {
 
-    @Inject
-    lateinit var viewModel: DogBreedsViewModel
+    private val viewModel by viewModels<DogBreedsViewModel>()
+
     private var _binding: FragmentDogBreedsBinding? = null
     private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
     private val listBreeds = ArrayList<Breed>()
@@ -38,7 +39,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
+//        (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
         callback = (activity as? IOnClickEvent)
     }
 

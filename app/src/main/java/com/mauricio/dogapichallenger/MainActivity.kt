@@ -14,7 +14,9 @@ import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.views.BreedDetailActivity
 import com.mauricio.dogapichallenger.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), IOnClickEvent {
 
     private lateinit var binding: ActivityMainBinding
@@ -48,5 +50,4 @@ class MainActivity : AppCompatActivity(), IOnClickEvent {
         }
         startActivity(intent)
     }
-
 }

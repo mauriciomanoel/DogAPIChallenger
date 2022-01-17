@@ -1,7 +1,6 @@
 package com.mauricio.dogapichallenger.breeds.repository
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import com.google.gson.reflect.TypeToken
 import com.mauricio.dogapichallenger.breeds.Breed
@@ -12,7 +11,7 @@ import com.mauricio.dogapichallenger.utils.SharedPreferencesUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application)  {
+class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val breeds = ArrayList<Breed>()
