@@ -93,11 +93,15 @@ class DogBreedsViewModel@Inject constructor(private val application: Application
     }
 
     private fun showLoading() {
-        _showLoading.value = true
+        _showLoading.apply {
+            postValue(true)
+        }
     }
 
     private fun hideLoading() {
-        _showLoading.value = false
+        _showLoading.apply {
+            postValue(false)
+        }
     }
 
 }

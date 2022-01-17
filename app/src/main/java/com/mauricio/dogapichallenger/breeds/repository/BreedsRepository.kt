@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application)  {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun getBreeds(process: (value: BreedsResult?, e: Throwable?) -> Unit) {
 
