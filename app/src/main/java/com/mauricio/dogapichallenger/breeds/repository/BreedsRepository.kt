@@ -2,6 +2,7 @@ package com.mauricio.dogapichallenger.breeds.repository
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.google.gson.reflect.TypeToken
 import com.mauricio.dogapichallenger.breeds.Breed
 import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
@@ -18,27 +19,41 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     fun getBreeds(process: (value: BreedsResult?, e: Throwable?) -> Unit) {
 
         val handler = CoroutineExceptionHandler { _, exception ->
-            println("CoroutineExceptionHandler got $exception")
+            Log.e(TAG, "CoroutineExceptionHandler got $exception")
             process(null, exception)
         }
 
-        coroutineScope.launch(handler) {
+        val job = coroutineScope.launch(handler) {
             val breeds = apiService.getBreeds()
             updateLocalBreeds(breeds)
             process(breeds, null)
+        }
+
+        job.invokeOnCompletion { exception: Throwable? ->
+            exception?.let {
+                Log.e(TAG, "JobCancellationException got $exception")
+                process(null, exception)
+            }
         }
     }
 
     fun getBreedsById(breedId: Long, process: (value: BreedsByIdResult?, e: Throwable?) -> Unit) {
 
         val handler = CoroutineExceptionHandler { _, exception ->
-            println("CoroutineExceptionHandler got $exception")
+            Log.e(TAG, "CoroutineExceptionHandler got $exception")
             process(null, exception)
         }
 
-        coroutineScope.launch(handler) {
+        val job = coroutineScope.launch(handler) {
             val breeds = apiService.getBreedsById(breedId.toString())
             process(breeds, null)
+        }
+
+        job.invokeOnCompletion { exception: Throwable? ->
+            exception?.let {
+                Log.e(TAG, "JobCancellationException got $exception")
+                process(null, exception)
+            }
         }
     }
 
@@ -57,6 +72,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     }
 
     companion object {
+        val TAG = BreedsRepository::class.java.simpleName
         private val KEY_STORE_BREEDS = "db38559e35e10446884877da28b4580773286295"
     }
 }

@@ -68,11 +68,11 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
         binding.gridViewFormat.setOnClickListener {
             binding.columns = DEFAULT_COLUNS
             binding.layoutManager = GRID_VIEW_FORMAT
-            Toast.makeText(activity, "gridViewFormat", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "gridView", Toast.LENGTH_SHORT).show()
         }
         binding.listViewFormat.setOnClickListener {
             binding.layoutManager = LIST_VIEW_FORMAT
-            Toast.makeText(activity, "listViewFormat", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "listView", Toast.LENGTH_SHORT).show()
         }
         binding.orderByAscending.setOnClickListener {
             viewModel.orderByBreeds(ORDER_BY_ASCENDING)

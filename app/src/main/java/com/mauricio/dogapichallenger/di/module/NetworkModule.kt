@@ -55,10 +55,7 @@ class NetworkModule {
                             request = if (ConnectionNetwork.isOnline(context))
                                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
                             else
-                                request.newBuilder().header(
-                                    "Cache-Control",
-                                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
-                                ).build()
+                                request.newBuilder().header("Cache-Control", "public, only-if-cached").build()
                             chain.proceed(request)
                         }
                         .build()
@@ -70,7 +67,6 @@ class NetworkModule {
                 Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
-//                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .client(okHttpClient)
                         .build()
         @JvmStatic
@@ -82,7 +78,7 @@ class NetworkModule {
         @Singleton
         @Provides
         fun provideCacheFile(context: Application): Cache {
-            val cacheSize = (5 * 1024 * 1024).toLong()
+            val cacheSize = (5 * 1024 * 1024).toLong() // 5 MB
             return Cache(context.cacheDir, cacheSize)
         }
     }
