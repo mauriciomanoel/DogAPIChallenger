@@ -46,9 +46,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.test:core-ktx:1.4.0'
+
 
     // Tests
-    implementation 'androidx.test:core-ktx:1.4.0'
     androidTestImplementation "androidx.arch.core:core-testing:$versions.android_core_testing_version"
     testImplementation "androidx.arch.core:core-testing:$versions.android_core_testing_version"
     testImplementation 'junit:junit:4.+'

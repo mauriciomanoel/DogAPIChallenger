@@ -19,11 +19,6 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(JUnit4::class)
 class DogBreedsViewModelUnitTest {
 
@@ -45,7 +40,7 @@ class DogBreedsViewModelUnitTest {
 
     @ExperimentalCoroutinesApi
     @After
-    fun down() {
+    fun setDown() {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
     }
 
