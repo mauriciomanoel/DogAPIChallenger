@@ -8,6 +8,7 @@ import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.EXTRA_BREED
 import com.mauricio.dogapichallenger.databinding.ActivityBreedDetailBinding
+import com.mauricio.dogapichallenger.utils.TextUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,15 +37,15 @@ class BreedDetailActivity : AppCompatActivity() {
                 binding.urlPhoto = element.image?.url
                 binding.breedName.text = element.name
                 binding.breedCategory.text = element.breedGroup
-                binding.origin.text = element.origin
-                binding.temperament.text = element.temperament
+                binding.origin.text = TextUtils.checkIsEmpty(this, element.origin)
+                binding.temperament.text = TextUtils.checkIsEmpty(this, element.temperament)
             }
             is BreedResultElement -> {
                 binding.urlPhoto = element.url
                 binding.breedName.text = element.breeds.get(0).name
                 binding.breedCategory.text = element.breeds.get(0).breedGroup
-                binding.origin.text = checkIsEmpty(element.breeds[0].origin)
-                binding.temperament.text = element.breeds.get(0).temperament
+                binding.origin.text = TextUtils.checkIsEmpty(this, element.breeds[0].origin)
+                binding.temperament.text = TextUtils.checkIsEmpty(this, element.breeds.get(0).temperament)
             }
         }
     }
@@ -57,10 +58,5 @@ class BreedDetailActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun checkIsEmpty(value: String?): String {
-        if (value.isNullOrBlank()) return getString(R.string.is_not_available)
-        return value
     }
 }
