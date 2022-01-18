@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mauricio.dogapichallenger.breeds.Breed
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
-import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
-import com.mauricio.dogapichallenger.breeds.BreedsResult
+import com.mauricio.dogapichallenger.breeds.models.Breed
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.models.BreedsByIdResult
+import com.mauricio.dogapichallenger.breeds.models.BreedsResult
 import com.mauricio.dogapichallenger.breeds.repository.BreedsRepository
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_ASCENDING
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +28,6 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
 
-    //initializing the necessary components and classes
-//    init {
-//        DaggerAppComponent.builder().app(application).build().inject(this)
-//    }
-
     fun getBreeds() {
         showLoading()
         repository.getBreeds(::processBreeds)
@@ -45,7 +40,11 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
             else -> values?.sortedByDescending { it.name }
         }
         _breeds.apply {
-            postValue(ArrayList(valuesSorted))
+            val value = ArrayList<Breed>()
+            valuesSorted?.let {
+                value.addAll(valuesSorted)
+            }
+            postValue(value)
         }
     }
 
@@ -74,7 +73,7 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
                 postValue(it)
             }
         } ?: run {
-            _messageError?.apply {
+            _messageError.apply {
                 postValue(e?.message)
             }
         }
@@ -88,7 +87,7 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
                 postValue(it)
             }
         } ?: run {
-            _messageError?.apply {
+            _messageError.apply {
                 postValue(e?.message)
             }
         }

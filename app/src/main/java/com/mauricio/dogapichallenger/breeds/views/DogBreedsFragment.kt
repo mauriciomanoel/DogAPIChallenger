@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.viewmodel.DogBreedsViewModel
@@ -39,7 +38,6 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-//        (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
         callback = (activity as? IOnClickEvent)
     }
 

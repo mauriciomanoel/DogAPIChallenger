@@ -16,5 +16,4 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideBreedsRepository(apiService: RetrofitApiService, application: Application) = BreedsRepository(apiService, application)
-
 }

@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
 import com.mauricio.dogapichallenger.BR
 import com.mauricio.dogapichallenger.R
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 
 class DogBreedsRecyclerViewAdapter(
@@ -31,7 +31,7 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
-        values[position]?.let { element ->
+        values[position].let { element ->
             holder.binding.itemDogBreed.setOnClickListener {
                 callback.onItemClicked(element)
             }
