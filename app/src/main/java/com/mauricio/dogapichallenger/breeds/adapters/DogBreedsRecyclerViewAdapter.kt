@@ -10,6 +10,7 @@ import com.mauricio.dogapichallenger.BR
 import com.mauricio.dogapichallenger.R
 import com.mauricio.dogapichallenger.breeds.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
+import com.mauricio.dogapichallenger.utils.TextUtils
 
 class DogBreedsRecyclerViewAdapter(
     private val values: List<Any>, private val callback: IOnClickEvent
@@ -55,14 +56,9 @@ class DogBreedsRecyclerViewAdapter(
             binding.setVariable(BR.urlPhoto, breed.url)
             binding.setVariable(BR.name, "${context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
             binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${breed.breeds[0].breedGroup}")
-            binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${checkIsEmpty(breed.breeds[0].origin)}")
+            binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty(context, breed.breeds[0].origin)}")
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()
-        }
-
-        private fun checkIsEmpty(value: String?): String {
-            if (value.isNullOrBlank()) return context.getString(R.string.is_not_available)
-            return value
         }
     }
 }
