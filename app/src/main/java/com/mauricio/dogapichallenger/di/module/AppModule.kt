@@ -12,13 +12,9 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-    @Singleton
-    @Provides
-    fun provideContext(application: Application): Context = application.applicationContext
-
     @Provides
     @Singleton
-    fun provideCartRepository(apiService: RetrofitApiService, application: Application) = BreedsRepository(apiService, application)
+    fun provideBreedsRepository(apiService: RetrofitApiService, application: Application) = BreedsRepository(apiService, application)
 
     @Provides
     fun provideDogBreedsViewModel(application: Application) = DogBreedsViewModel(application)
