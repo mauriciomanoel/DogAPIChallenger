@@ -39,6 +39,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
 }
 
 dependencies {
@@ -58,6 +61,8 @@ dependencies {
     testImplementation "org.mockito:mockito-core:2.28.2"
     testImplementation 'org.mockito:mockito-inline:3.7.7'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation "org.robolectric:robolectric:4.4"
+
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview_version"
@@ -83,15 +88,15 @@ dependencies {
     // JSON Parsing
     implementation "com.google.code.gson:gson:$versions.gson_version"
 
+    // Hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$versions.hilt_version"
-
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
 
-    // Hilt testing dependencies
-//    androidTestImplementation "com.google.dagger:hilt-android-testing:$versions.hilt_version"
-//    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$versions.hilt_version"
+    // For local unit tests
+    testImplementation "com.google.dagger:hilt-android-testing:$versions.hilt_version"
+    kaptTest "com.google.dagger:hilt-compiler:$versions.hilt_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"

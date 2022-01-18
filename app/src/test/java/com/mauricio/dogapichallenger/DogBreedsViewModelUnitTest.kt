@@ -1,9 +1,15 @@
 package com.mauricio.dogapichallenger
 
 import android.app.Application
+import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.mauricio.dogapichallenger.BuildConfig.VERSION_CODE
+import com.mauricio.dogapichallenger.breeds.repository.BreedsRepository
 import com.mauricio.dogapichallenger.breeds.viewmodel.DogBreedsViewModel
 import com.mauricio.dogapichallenger.utils.Constant.ORDER_BY_DESCENDING
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import junit.framework.TestCase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
@@ -18,24 +24,33 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
+import javax.inject.Inject
 
-@RunWith(JUnit4::class)
+@HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(application = HiltTestApplication::class)
+@ExperimentalCoroutinesApi
 class DogBreedsViewModelUnitTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Mock
     lateinit var viewModel: DogBreedsViewModel
-    @Mock
-    lateinit var mockContext: Application
+    @Inject
+    lateinit var repository: BreedsRepository
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
+        hiltRule.inject()
         Dispatchers.setMain(StandardTestDispatcher())
-        MockitoAnnotations.openMocks(this)
-        viewModel = DogBreedsViewModel(mockContext)
+        viewModel = DogBreedsViewModel(repository)
     }
 
     @ExperimentalCoroutinesApi
