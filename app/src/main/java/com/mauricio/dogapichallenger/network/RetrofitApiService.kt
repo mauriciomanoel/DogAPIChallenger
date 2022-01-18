@@ -1,7 +1,7 @@
 package com.mauricio.dogapichallenger.network
 
-import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
-import com.mauricio.dogapichallenger.breeds.BreedsResult
+import com.mauricio.dogapichallenger.breeds.models.BreedsByIdResult
+import com.mauricio.dogapichallenger.breeds.models.BreedsResult
 import retrofit2.http.*
 
 interface RetrofitApiService {

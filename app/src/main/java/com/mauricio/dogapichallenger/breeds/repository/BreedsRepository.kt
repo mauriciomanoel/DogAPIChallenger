@@ -1,18 +1,17 @@
 package com.mauricio.dogapichallenger.breeds.repository
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import com.google.gson.reflect.TypeToken
-import com.mauricio.dogapichallenger.breeds.Breed
-import com.mauricio.dogapichallenger.breeds.BreedsByIdResult
-import com.mauricio.dogapichallenger.breeds.BreedsResult
+import com.mauricio.dogapichallenger.breeds.models.Breed
+import com.mauricio.dogapichallenger.breeds.models.BreedsByIdResult
+import com.mauricio.dogapichallenger.breeds.models.BreedsResult
 import com.mauricio.dogapichallenger.network.RetrofitApiService
 import com.mauricio.dogapichallenger.utils.SharedPreferencesUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application)  {
+class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val breeds = ArrayList<Breed>()
@@ -72,7 +71,11 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
 
     fun getBreedsName(): ArrayList<String> {
         val breeds = getBreeds()
-        return ArrayList(breeds?.map { it.name })
+        val values = ArrayList<String>()
+        breeds?.map { it.name }?.let {
+            values.addAll(it)
+        }
+        return values
     }
 
     companion object {

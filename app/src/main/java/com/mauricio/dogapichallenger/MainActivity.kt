@@ -8,13 +8,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.mauricio.dogapichallenger.breeds.Breed
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
-import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
+import com.mauricio.dogapichallenger.breeds.models.Breed
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.models.EXTRA_BREED
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.views.BreedDetailActivity
 import com.mauricio.dogapichallenger.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), IOnClickEvent {
 
     private lateinit var binding: ActivityMainBinding
@@ -48,5 +50,4 @@ class MainActivity : AppCompatActivity(), IOnClickEvent {
         }
         startActivity(intent)
     }
-
 }

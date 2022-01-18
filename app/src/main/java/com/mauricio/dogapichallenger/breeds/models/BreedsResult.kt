@@ -1,4 +1,4 @@
-package com.mauricio.dogapichallenger.breeds
+package com.mauricio.dogapichallenger.breeds.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

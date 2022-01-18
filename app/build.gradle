@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -12,7 +13,7 @@ android {
         minSdk 21
         targetSdk 31
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,6 +39,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
 }
 
 dependencies {
@@ -48,7 +52,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.test:core-ktx:1.4.0'
 
-
     // Tests
     androidTestImplementation "androidx.arch.core:core-testing:$versions.android_core_testing_version"
     testImplementation "androidx.arch.core:core-testing:$versions.android_core_testing_version"
@@ -58,6 +61,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:2.28.2"
     testImplementation 'org.mockito:mockito-inline:3.7.7'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation "org.robolectric:robolectric:4.4"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview_version"
@@ -83,11 +87,15 @@ dependencies {
     // JSON Parsing
     implementation "com.google.code.gson:gson:$versions.gson_version"
 
-    // Dagger for dependency injection
-    implementation "com.google.dagger:dagger:$versions.dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$versions.dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$versions.dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$versions.dagger_version"
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$versions.hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$versions.hilt_version"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+
+    // For local unit tests
+    testImplementation "com.google.dagger:hilt-android-testing:$versions.hilt_version"
+    kaptTest "com.google.dagger:hilt-compiler:$versions.hilt_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"

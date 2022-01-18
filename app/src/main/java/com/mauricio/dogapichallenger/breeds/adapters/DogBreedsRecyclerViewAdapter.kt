@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mauricio.dogapichallenger.breeds.Breed
+import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
 import com.mauricio.dogapichallenger.BR
 import com.mauricio.dogapichallenger.R
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.utils.TextUtils
 
@@ -32,7 +32,7 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
-        values[position]?.let { element ->
+        values[position].let { element ->
             holder.binding.itemDogBreed.setOnClickListener {
                 callback.onItemClicked(element)
             }
@@ -55,7 +55,7 @@ class DogBreedsRecyclerViewAdapter(
         fun bind(breed: BreedResultElement) {
             binding.setVariable(BR.urlPhoto, breed.url)
             binding.setVariable(BR.name, "${context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
-            binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${breed.breeds[0].breedGroup}")
+            binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${TextUtils.checkIsEmpty(context, breed.breeds[0].breedGroup)}")
             binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty(context, breed.breeds[0].origin)}")
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()

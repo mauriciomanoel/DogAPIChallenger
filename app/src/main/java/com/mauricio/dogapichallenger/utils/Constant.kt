@@ -6,8 +6,4 @@ object Constant {
     const val DEFAULT_COLUNS = 2
     const val ORDER_BY_ASCENDING = "orderByAscending"
     const val ORDER_BY_DESCENDING = "orderByDescending"
-
-
-
-
 }

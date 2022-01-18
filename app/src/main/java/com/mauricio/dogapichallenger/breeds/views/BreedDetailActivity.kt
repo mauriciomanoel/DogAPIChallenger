@@ -3,13 +3,14 @@ package com.mauricio.dogapichallenger.breeds.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.mauricio.dogapichallenger.R
-import com.mauricio.dogapichallenger.breeds.Breed
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
-import com.mauricio.dogapichallenger.breeds.EXTRA_BREED
+import com.mauricio.dogapichallenger.breeds.models.Breed
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
+import com.mauricio.dogapichallenger.breeds.models.EXTRA_BREED
 import com.mauricio.dogapichallenger.databinding.ActivityBreedDetailBinding
 import com.mauricio.dogapichallenger.utils.TextUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BreedDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBreedDetailBinding

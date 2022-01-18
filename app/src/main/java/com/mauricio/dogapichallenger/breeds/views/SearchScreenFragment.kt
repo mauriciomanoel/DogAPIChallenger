@@ -10,19 +10,18 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.mauricio.dogapichallenger.databinding.FragmentSearchScreenBinding
 import android.widget.Toast
-import com.mauricio.dogapichallenger.AndroidDogApiApplication
-import com.mauricio.dogapichallenger.breeds.Breed
-import com.mauricio.dogapichallenger.breeds.BreedResultElement
+import androidx.fragment.app.viewModels
+import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.breeds.viewmodel.DogBreedsViewModel
 import com.mauricio.dogapichallenger.utils.Constant
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchScreenFragment : Fragment(), IOnClickEvent  {
 
-    @Inject
-    lateinit var viewModel: DogBreedsViewModel
+    private val viewModel by viewModels<DogBreedsViewModel>()
     private var _binding: FragmentSearchScreenBinding? = null
     private lateinit var mContext: Context
     private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
@@ -36,7 +35,6 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        (context.applicationContext as AndroidDogApiApplication).androidInjector.inject(this)
         callback = (activity as? IOnClickEvent)
     }
 
