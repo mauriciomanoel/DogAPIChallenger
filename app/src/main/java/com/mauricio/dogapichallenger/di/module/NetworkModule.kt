@@ -39,30 +39,30 @@ object NetworkModule {
         headersInterceptor: HttpHeadersInterceptor,
         cache: Cache,
         application: Application): OkHttpClient = OkHttpClient.Builder()
-                    .connectTimeout(5, TimeUnit.SECONDS)
-                    .writeTimeout(5, TimeUnit.SECONDS)
-                    .readTimeout(5, TimeUnit.SECONDS)
-                    .addInterceptor(loggingInterceptor)
-                    .addInterceptor(headersInterceptor)
-                    .cache(cache)
-                    .addInterceptor { chain ->
-                        var request = chain.request()
-                        request = if (ConnectionNetworkUtils.isOnline(application))
-                            request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
-                        else
-                            request.newBuilder().header("Cache-Control", "public, only-if-cached").build()
-                        chain.proceed(request)
-                    }
-                    .build()
+        .connectTimeout(5, TimeUnit.SECONDS)
+        .writeTimeout(5, TimeUnit.SECONDS)
+        .readTimeout(5, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(headersInterceptor)
+        .cache(cache)
+        .addInterceptor { chain ->
+            var request = chain.request()
+            request = if (ConnectionNetworkUtils.isOnline(application))
+                request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
+            else
+                request.newBuilder().header("Cache-Control", "public, only-if-cached").build()
+            chain.proceed(request)
+        }
+        .build()
 
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-            Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build()
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
 
     @Singleton
     @Provides

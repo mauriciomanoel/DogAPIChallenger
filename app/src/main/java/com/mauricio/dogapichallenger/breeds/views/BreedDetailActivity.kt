@@ -3,7 +3,6 @@ package com.mauricio.dogapichallenger.breeds.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.mauricio.dogapichallenger.R
 import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.EXTRA_BREED
