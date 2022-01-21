@@ -11,12 +11,14 @@ import com.mauricio.dogapichallenger.utils.SharedPreferencesUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application) {
+class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application, private val breedDao: BreedDao) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val breeds = ArrayList<Breed>()
 
     fun getBreeds(process: (value: BreedsResult?, e: Throwable?) -> Unit) {
+
+        Log.v(TAG, "getAllBreedsFromDatabase() = ${getAllBreedsFromDatabase()}")
 
         val handler = CoroutineExceptionHandler { _, exception ->
             Log.e(TAG, "CoroutineExceptionHandler got $exception")
@@ -58,6 +60,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     }
 
     private fun updateLocalBreeds(values: ArrayList<Breed>) {
+        addAllBreeds(values)
         breeds.clear()
         breeds.addAll(values)
         SharedPreferencesUtils.save(application, values, KEY_STORE_BREEDS)
@@ -76,6 +79,31 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             values.addAll(it)
         }
         return values
+    }
+
+
+    private fun addAllBreeds(values: ArrayList<Breed>) {
+        coroutineScope.launch {
+            values.forEach { breed ->
+                breedDao.insert(breed)
+            }
+        }
+    }
+
+    private fun getAllBreedsFromDatabase() {
+//        var a: MutableList<Breed>? = null
+        coroutineScope.launch {
+            val value = breedDao.getBreeds()
+            printBreeds(value)
+       }
+//        return a
+
+
+
+    }
+
+    private fun printBreeds(value:  MutableList<Breed>?) {
+        Log.v(TAG, "printBreeds: $value")
     }
 
     companion object {

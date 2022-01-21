@@ -1,6 +1,11 @@
 package com.mauricio.dogapichallenger.breeds.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.mauricio.dogapichallenger.breeds.repository.Converters
 import java.io.Serializable
 
 typealias BreedsResult = ArrayList<Breed>
@@ -14,14 +19,16 @@ data class BreedResultElement (
     val width: Long
 ) : Serializable
 
+@Entity(tableName="Breed")
 data class Breed (
     @SerializedName("bred_for")
     val bredFor: String,
     @SerializedName("breed_group")
     val breedGroup: String,
     val height: Eight,
+    @PrimaryKey @ColumnInfo(name = "id")
     val id: Long,
-    val image: Image? = null,
+    val image: Image,
     val lifeSpan: String,
     val name: String,
     val origin: String,
@@ -35,9 +42,11 @@ data class Eight (
     val metric: String
 ): Serializable
 
+@Entity(tableName="BreedImage")
 data class Image (
-    val height: Long,
+    @PrimaryKey @ColumnInfo(name = "id")
     val id: String,
+    val height: Long,
     val url: String,
     val width: Long
 ): Serializable
