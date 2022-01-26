@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,7 +31,10 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     private val listBreeds = ArrayList<Breed>()
     private lateinit var mContext: Context
     private var callback: IOnClickEvent? = null
-
+    private lateinit var gridViewFormat: ImageView
+    private lateinit var listViewFormat: ImageView
+    private lateinit var orderByAscending: ImageView
+    private lateinit var orderByDescending: ImageView
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -55,29 +59,39 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
         initAdapters()
         initObservers()
 
-        viewModel.getBreeds()
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getBreeds()
+    }
+
     private fun initializeParameters() {
-        binding.columns = DEFAULT_COLUNS
-        binding.layoutManager = GRID_VIEW_FORMAT
+        with(binding) {
+            columns = DEFAULT_COLUNS
+            layoutManager = GRID_VIEW_FORMAT
+        }
+        gridViewFormat = binding.gridViewFormat
+        listViewFormat = binding.listViewFormat
+        orderByAscending = binding.orderByAscending
+        orderByDescending = binding.orderByDescending
     }
     private fun initListeners() {
-        binding.gridViewFormat.setOnClickListener {
+        gridViewFormat.setOnClickListener {
             binding.columns = DEFAULT_COLUNS
             binding.layoutManager = GRID_VIEW_FORMAT
             Toast.makeText(activity, "gridView", Toast.LENGTH_SHORT).show()
         }
-        binding.listViewFormat.setOnClickListener {
+        listViewFormat.setOnClickListener {
             binding.layoutManager = LIST_VIEW_FORMAT
             Toast.makeText(activity, "listView", Toast.LENGTH_SHORT).show()
         }
-        binding.orderByAscending.setOnClickListener {
+        orderByAscending.setOnClickListener {
             viewModel.orderByBreeds(ORDER_BY_ASCENDING)
             Toast.makeText(activity, "orderByAscending", Toast.LENGTH_SHORT).show()
         }
-        binding.orderByDescending.setOnClickListener {
+        orderByDescending.setOnClickListener {
             viewModel.orderByBreeds(ORDER_BY_DESCENDING)
             Toast.makeText(activity, "orderByDescending", Toast.LENGTH_SHORT).show()
         }

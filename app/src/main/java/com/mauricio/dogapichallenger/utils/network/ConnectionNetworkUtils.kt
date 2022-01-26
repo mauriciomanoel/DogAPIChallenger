@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
+// Injetar o contexto no código
 object ConnectionNetworkUtils {
     @JvmStatic
     fun isOnline(context: Context): Boolean {
