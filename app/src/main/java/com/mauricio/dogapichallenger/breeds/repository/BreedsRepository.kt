@@ -2,6 +2,8 @@ package com.mauricio.dogapichallenger.breeds.repository
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.reflect.TypeToken
 import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.breeds.models.BreedsByIdResult
@@ -12,7 +14,7 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 import javax.inject.Inject
 
-class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application, private val breedDao: BreedDao) {
+class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService,  private val breedDao: BreedDao) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val breeds = ArrayList<Breed>()
@@ -75,22 +77,24 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         addAllBreeds(values)
         breeds.clear()
         breeds.addAll(values)
-        SharedPreferencesUtils.save(application, values, KEY_STORE_BREEDS)
+//        SharedPreferencesUtils.save(application, values, KEY_STORE_BREEDS)
     }
 
-    fun getBreeds(): ArrayList<Breed>? {
-        val listType = object : TypeToken<ArrayList<Breed?>?>() {}.type
-        val values = SharedPreferencesUtils.get(application, listType, KEY_STORE_BREEDS) as? ArrayList<Breed>
-        return values ?: breeds
-    }
-
-    fun getBreedsName(): ArrayList<String> {
-        val breeds = getBreeds()
-        val values = ArrayList<String>()
-        breeds?.map { it.name }?.let {
-            values.addAll(it)
+    fun getBreeds(process: (values: ArrayList<Breed>) -> Unit) {
+        getBreedsFromDatabase { breeds->
+            process(breeds)
         }
-        return values
+    }
+
+    fun getBreedsName(): LiveData<List<String>> {
+        val _breeds = MutableLiveData<List<String>>()
+
+        getBreedsFromDatabase { values->
+            values.map { it.name }.let {
+                _breeds.postValue(it)
+            }
+        }
+        return _breeds
     }
 
     fun cancelAllJobs() {

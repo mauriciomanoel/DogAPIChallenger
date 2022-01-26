@@ -24,5 +24,5 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideBreedsRepository(apiService: RetrofitApiService, application: Application, breedDao: BreedDao) = BreedsRepository(apiService, application, breedDao)
+    fun provideBreedsRepository(apiService: RetrofitApiService, breedDao: BreedDao) = BreedsRepository(apiService, breedDao)
 }

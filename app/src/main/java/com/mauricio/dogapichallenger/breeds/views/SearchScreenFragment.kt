@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.mauricio.dogapichallenger.databinding.FragmentSearchScreenBinding
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
@@ -80,21 +81,22 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
 
     private fun initializeSpinnerData() {
 
-        val values = viewModel.getBreedsName()
-        if (values.size > 0) {
-            ArrayAdapter(mContext, android.R.layout.simple_spinner_item, values).also { adapter ->
-                // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                // Apply the adapter to the spinner
-                binding.spinner.adapter = adapter
-                binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                        viewModel.searchBreedByPosition(position)
-                    }
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                })
+        viewModel.getBreedsName().observe(viewLifecycleOwner, { values ->
+            if (values.size > 0) {
+                ArrayAdapter(mContext, android.R.layout.simple_spinner_item, values).also { adapter ->
+                    // Specify the layout to use when the list of choices appears
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    // Apply the adapter to the spinner
+                    binding.spinner.adapter = adapter
+                    binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                            viewModel.searchBreedByPosition(position)
+                        }
+                        override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    })
+                }
             }
-        }
+        })
     }
 
     override fun onDestroyView() {

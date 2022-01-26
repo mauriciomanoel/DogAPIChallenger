@@ -39,30 +39,32 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     }
 
     fun orderByBreeds(sortBy: String) {
-        val values = repository.getBreeds()
-        val valuesSorted = when(sortBy) {
-            ORDER_BY_ASCENDING ->  values?.sortedBy { it.name }
-            else -> values?.sortedByDescending { it.name }
-        }
-        _breeds.apply {
-            val value = ArrayList<Breed>()
-            valuesSorted?.let {
-                value.addAll(valuesSorted)
+        repository.getBreeds { values ->
+            val valuesSorted = when(sortBy) {
+                ORDER_BY_ASCENDING ->  values.sortedBy { it.name }
+                else -> values.sortedByDescending { it.name }
             }
-            postValue(value)
+            _breeds.apply {
+                val value = ArrayList<Breed>()
+                valuesSorted.let {
+                    value.addAll(valuesSorted)
+                }
+                postValue(value)
+            }
         }
     }
 
-    fun getBreedsName(): ArrayList<String> {
-        return repository.getBreedsName()
+    fun getBreedsName(): LiveData<List<String>> {
+         return repository.getBreedsName()
     }
 
     fun searchBreedByPosition(position: Int) {
-        val values = repository.getBreeds()
-        val breed = values?.get(position)
-        breed?.id?.let { breedId ->
-            showLoading()
-            repository.getBreedsById(breedId, ::processBreedsBySearch)
+        repository.getBreeds { values ->
+            val breed = values.get(position)
+            breed.id.let { breedId ->
+                showLoading()
+                repository.getBreedsById(breedId, ::processBreedsBySearch)
+            }
         }
     }
 
