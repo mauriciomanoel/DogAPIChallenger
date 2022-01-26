@@ -32,7 +32,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
 
         val job = coroutineScope.launch(handler) {
             val breeds = apiService.getBreeds()
-            updateLocalBreeds(breeds)
+            addAllBreeds(breeds)
             process(breeds, null)
         }
 
@@ -71,13 +71,6 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
                 process(null, exception)
             }
         }
-    }
-
-    private fun updateLocalBreeds(values: ArrayList<Breed>) {
-        addAllBreeds(values)
-        breeds.clear()
-        breeds.addAll(values)
-//        SharedPreferencesUtils.save(application, values, KEY_STORE_BREEDS)
     }
 
     fun getBreeds(process: (values: ArrayList<Breed>) -> Unit) {
