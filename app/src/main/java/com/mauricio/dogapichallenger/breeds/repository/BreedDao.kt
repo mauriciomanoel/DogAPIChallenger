@@ -13,6 +13,6 @@ interface BreedDao {
     @Query("SELECT * from Breed order by id")
     fun getBreeds(): MutableList<Breed>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(breed: Breed)
 }

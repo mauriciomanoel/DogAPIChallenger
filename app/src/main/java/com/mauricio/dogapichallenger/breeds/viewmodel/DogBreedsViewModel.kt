@@ -28,6 +28,11 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
 
+    override fun onCleared() {
+        repository.cancelAllJobs()
+        super.onCleared()
+    }
+
     fun getBreeds() {
         showLoading()
         repository.getBreeds(::processBreeds)

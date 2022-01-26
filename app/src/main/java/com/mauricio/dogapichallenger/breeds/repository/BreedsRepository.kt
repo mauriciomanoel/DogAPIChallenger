@@ -9,20 +9,23 @@ import com.mauricio.dogapichallenger.breeds.models.BreedsResult
 import com.mauricio.dogapichallenger.network.RetrofitApiService
 import com.mauricio.dogapichallenger.utils.SharedPreferencesUtils
 import kotlinx.coroutines.*
+import java.lang.Exception
 import javax.inject.Inject
 
 class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService, private val application: Application, private val breedDao: BreedDao) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val breeds = ArrayList<Breed>()
+    private val jobs = mutableListOf<Job>()
 
     fun getBreeds(process: (value: BreedsResult?, e: Throwable?) -> Unit) {
 
-        Log.v(TAG, "getAllBreedsFromDatabase() = ${getAllBreedsFromDatabase()}")
-
         val handler = CoroutineExceptionHandler { _, exception ->
             Log.e(TAG, "CoroutineExceptionHandler got $exception")
-            process(null, exception)
+            reportErros(exception)
+            getBreedsFromDatabase { values ->
+                process(values, null)
+            }
         }
 
         val job = coroutineScope.launch(handler) {
@@ -31,10 +34,15 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             process(breeds, null)
         }
 
+        jobs.add(job)
+
         job.invokeOnCompletion { exception: Throwable? ->
             exception?.let {
                 Log.e(TAG, "JobCancellationException got $exception")
-                process(null, exception)
+                reportErros(exception)
+                getBreedsFromDatabase { values ->
+                    process(values, null)
+                }
             }
         }
     }
@@ -43,6 +51,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
 
         val handler = CoroutineExceptionHandler { _, exception ->
             Log.e(TAG, "CoroutineExceptionHandler got $exception")
+            reportErros(exception)
             process(null, exception)
         }
 
@@ -51,9 +60,12 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             process(breeds, null)
         }
 
+        jobs.add(job)
+
         job.invokeOnCompletion { exception: Throwable? ->
             exception?.let {
                 Log.e(TAG, "JobCancellationException got $exception")
+                reportErros(exception)
                 process(null, exception)
             }
         }
@@ -81,6 +93,13 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         return values
     }
 
+    fun cancelAllJobs() {
+        for (job in jobs) {
+            if (job.isActive) {
+                job.cancel()
+            }
+        }
+    }
 
     private fun addAllBreeds(values: ArrayList<Breed>) {
         coroutineScope.launch {
@@ -90,21 +109,16 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         }
     }
 
-    private fun getAllBreedsFromDatabase() {
-//        var a: MutableList<Breed>? = null
-        coroutineScope.launch {
+    private fun getBreedsFromDatabase(process: (values: ArrayList<Breed>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).async {
             val value = breedDao.getBreeds()
-            printBreeds(value)
-       }
-//        return a
-
-
-
+            process(ArrayList(value))
+        }
     }
 
-    private fun printBreeds(value:  MutableList<Breed>?) {
-        Log.v(TAG, "printBreeds: $value")
-    }
+    // Send information to backend
+    private fun reportErros(exception: Throwable) {}
+
 
     companion object {
         val TAG = BreedsRepository::class.java.simpleName

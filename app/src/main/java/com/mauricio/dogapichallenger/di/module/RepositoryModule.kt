@@ -20,7 +20,7 @@ object RepositoryModule {
     private val applicationScope = CoroutineScope(SupervisorJob())
 
     @Provides
-    fun provideDatabase(application: Application) = BreedRoomDB.getDatabase(application,applicationScope).breedDao()
+    fun provideDatabase(application: Application) = BreedRoomDB.getDatabase(application).breedDao()
 
     @Provides
     @ViewModelScoped

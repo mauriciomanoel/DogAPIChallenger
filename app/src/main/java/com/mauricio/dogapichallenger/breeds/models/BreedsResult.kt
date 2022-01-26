@@ -1,9 +1,6 @@
 package com.mauricio.dogapichallenger.breeds.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import com.mauricio.dogapichallenger.breeds.repository.Converters
 import java.io.Serializable
@@ -22,32 +19,32 @@ data class BreedResultElement (
 @Entity(tableName="Breed")
 data class Breed (
     @SerializedName("bred_for")
-    val bredFor: String,
+    val bredFor: String? = null,
     @SerializedName("breed_group")
-    val breedGroup: String,
+    val breedGroup: String? = null,
     val height: Eight,
     @PrimaryKey @ColumnInfo(name = "id")
     val id: Long,
     val image: Image,
-    val lifeSpan: String,
+    val lifeSpan: String? = null,
     val name: String,
-    val origin: String,
+    val origin: String? = null,
     @SerializedName("reference_image_id")
     val referenceImageID: String? = null,
-    val temperament: String,
+    val temperament: String? = null,
     val weight: Eight): Serializable
 
 data class Eight (
-    val imperial: String,
-    val metric: String
+    val imperial: String? = null,
+    val metric: String? = null
 ): Serializable
 
-@Entity(tableName="BreedImage")
+@Entity(tableName="Image")
 data class Image (
     @PrimaryKey @ColumnInfo(name = "id")
     val id: String,
     val height: Long,
-    val url: String,
+    val url: String? = null,
     val width: Long
 ): Serializable
 
