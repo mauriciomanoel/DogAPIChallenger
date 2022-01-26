@@ -16,12 +16,12 @@ class DogBreedsRecyclerViewAdapter(
     private val values: List<Any>, private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {
 
-    private lateinit var context: Context
+    private lateinit var context: Context // remover esta variavel
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): DogBreedsRecyclerViewAdapter.ViewHolder {
-        context = parent.context
+        context = parent.context // remover esta variavel
         return ViewHolder(
             ItemDogBreedsBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -32,6 +32,7 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
+        // melhoria do código com o with ou run
         values[position].let { element ->
             holder.binding.itemDogBreed.setOnClickListener {
                 callback.onItemClicked(element)
@@ -55,8 +56,11 @@ class DogBreedsRecyclerViewAdapter(
         fun bind(breed: BreedResultElement) {
             binding.setVariable(BR.urlPhoto, breed.url)
             binding.setVariable(BR.name, "${context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
-            binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${TextUtils.checkIsEmpty(context, breed.breeds[0].breedGroup)}")
-            binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty(context, breed.breeds[0].origin)}")
+            // Melhoria
+            // Fazer o tratamento das informações na classe Breed
+            binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${TextUtils.checkIsEmpty(binding.root.context, breed.breeds[0].breedGroup)}")
+            binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty( binding.root.context, breed.breeds[0].origin)}")
+
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()
         }

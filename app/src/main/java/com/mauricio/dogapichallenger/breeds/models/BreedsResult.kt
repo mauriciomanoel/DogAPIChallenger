@@ -14,6 +14,7 @@ data class BreedResultElement (
     val width: Long
 ) : Serializable
 
+// melhoria: Remover o Serializable (usa reflexão) para Parceble (não usa reflexão)
 data class Breed (
     @SerializedName("bred_for")
     val bredFor: String,
@@ -22,7 +23,7 @@ data class Breed (
     val height: Eight,
     val id: Long,
     val image: Image? = null,
-    val lifeSpan: String,
+    val lifeSpan: String? = null,
     val name: String,
     val origin: String,
     @SerializedName("reference_image_id")

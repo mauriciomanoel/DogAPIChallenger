@@ -55,13 +55,21 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
         initAdapters()
         initObservers()
 
-        viewModel.getBreeds()
         return root
     }
 
+    // Melhorias
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getBreeds()
+    }
+
     private fun initializeParameters() {
-        binding.columns = DEFAULT_COLUNS
-        binding.layoutManager = GRID_VIEW_FORMAT
+        // melhoria
+        with(binding) {
+            columns = DEFAULT_COLUNS
+            layoutManager = GRID_VIEW_FORMAT
+        }
     }
     private fun initListeners() {
         binding.gridViewFormat.setOnClickListener {
@@ -85,6 +93,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
 
     private fun initObservers() {
         viewModel.breeds.observe(viewLifecycleOwner, {
+            // Melhoria do código com DiffUtils
             listBreeds.clear()
             listBreeds.addAll(it)
             breedsAdapter.notifyDataSetChanged()
@@ -105,6 +114,8 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // melhoria do código
+        callback = null
     }
 
     override fun onItemClicked(value: Any) {

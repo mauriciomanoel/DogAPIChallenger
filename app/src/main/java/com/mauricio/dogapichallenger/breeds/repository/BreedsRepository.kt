@@ -23,13 +23,12 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             process(null, exception)
         }
 
-        val job = coroutineScope.launch(handler) {
+        // Melhoria
+        coroutineScope.launch(handler) {
             val breeds = apiService.getBreeds()
             updateLocalBreeds(breeds)
             process(breeds, null)
-        }
-
-        job.invokeOnCompletion { exception: Throwable? ->
+        }.invokeOnCompletion { exception: Throwable? ->
             exception?.let {
                 Log.e(TAG, "JobCancellationException got $exception")
                 process(null, exception)
@@ -44,12 +43,11 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             process(null, exception)
         }
 
-        val job = coroutineScope.launch(handler) {
+        // Melhoria
+        coroutineScope.launch(handler) {
             val breeds = apiService.getBreedsById(breedId.toString())
             process(breeds, null)
-        }
-
-        job.invokeOnCompletion { exception: Throwable? ->
+        }.invokeOnCompletion { exception: Throwable? ->
             exception?.let {
                 Log.e(TAG, "JobCancellationException got $exception")
                 process(null, exception)
@@ -69,13 +67,10 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         return values ?: breeds
     }
 
+    // Melhoria
+    // Map iteração 1 para 1  | FlapMap interação 1 para n
     fun getBreedsName(): ArrayList<String> {
-        val breeds = getBreeds()
-        val values = ArrayList<String>()
-        breeds?.map { it.name }?.let {
-            values.addAll(it)
-        }
-        return values
+        return ArrayList(getBreeds()?.map { it.name })
     }
 
     companion object {
