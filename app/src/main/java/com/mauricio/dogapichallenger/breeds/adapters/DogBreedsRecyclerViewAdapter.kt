@@ -3,6 +3,7 @@ package com.mauricio.dogapichallenger.breeds.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
@@ -57,6 +58,22 @@ class DogBreedsRecyclerViewAdapter(private val callback: IOnClickEvent
             binding.setVariable(BR.origin, "${binding.root.context.getString(R.string.title_origin)}: ${breed.breeds[0].origin?.checkIsEmpty(binding.root.context)}")
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()
+        }
+    }
+}
+
+class DogBreedsDiffCallback: DiffUtil.ItemCallback<Any>() {
+    override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+        return when(oldItem) {
+            is Breed ->  oldItem.id == (newItem as Breed).id
+            else -> (oldItem as BreedResultElement).id == (newItem as BreedResultElement).id
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+        return when(oldItem) {
+            is Breed ->  (oldItem as Breed) == (newItem as Breed)
+            else -> (oldItem as BreedResultElement) == (newItem as BreedResultElement)
         }
     }
 }

@@ -22,11 +22,8 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         val handler = CoroutineExceptionHandler { _, exception ->
             Log.e(TAG, "CoroutineExceptionHandler got $exception")
             reportErros(exception)
-            getBreedsFromDatabase { values ->
-                process(values, null)
-            }
+            getBreedsFromDatabase { process(it, null) }
         }
-
         val job = coroutineScope.launch(handler) {
             val breeds = apiService.getBreeds()
             addAllBreeds(breeds)
@@ -37,9 +34,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             exception?.let {
                 Log.e(TAG, "JobCancellationException got $exception")
                 reportErros(exception)
-                getBreedsFromDatabase { values ->
-                    process(values, null)
-                }
+                getBreedsFromDatabase { process(it, null) }
             }
         }
     }
@@ -52,10 +47,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
             process(null, exception)
         }
 
-        val job = coroutineScope.launch(handler) {
-            val breeds = apiService.getBreedsById(breedId.toString())
-            process(breeds, null)
-        }
+        val job = coroutineScope.launch(handler) { process(apiService.getBreedsById(breedId.toString()), null) }
         jobs.add(job)
         job.invokeOnCompletion { exception: Throwable? ->
             exception?.let {
@@ -66,41 +58,30 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         }
     }
 
-    fun getBreeds(process: (values: ArrayList<Breed>) -> Unit) {
-        getBreedsFromDatabase { breeds->
-            process(breeds)
-        }
-    }
+    fun getBreeds(process: (values: ArrayList<Breed>) -> Unit) = getBreedsFromDatabase { process(it) }
 
     fun getBreedsName(): LiveData<List<String>> {
         val _breeds = MutableLiveData<List<String>>()
-        getBreedsFromDatabase { values->
-            _breeds.postValue(values.map { it.name })
-        }
+        getBreedsFromDatabase { values-> _breeds.postValue(values.map { it.name }) }
         return _breeds
     }
 
     fun cancelAllJobs() {
-        for (job in jobs) {
-            if (job.isActive) {
-                job.cancel()
+        jobs.forEach {
+            if (it.isActive) {
+                it.cancel()
             }
         }
     }
 
     private fun addAllBreeds(values: ArrayList<Breed>) {
         coroutineScope.launch {
-            values.forEach { breed ->
-                breedDao.insert(breed)
-            }
+            values.forEach { breedDao.insert(it) }
         }
     }
 
     private fun getBreedsFromDatabase(process: (values: ArrayList<Breed>) -> Unit) {
-        CoroutineScope(Dispatchers.IO).async {
-            val value = breedDao.getBreeds()
-            process(ArrayList(value))
-        }
+        CoroutineScope(Dispatchers.IO).async { process(ArrayList(breedDao.getBreeds())) }
     }
 
     // Send information to backend
