@@ -36,9 +36,7 @@ class ConnectionNetworkUtils @Inject constructor(private val context: Context) {
                     }
                 }
             }
-        } catch (e: Exception) {
-            result = false
-        }
+        } catch (e: Exception) { }
 
         return result
     }

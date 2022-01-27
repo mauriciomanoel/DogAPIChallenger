@@ -50,14 +50,11 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
         }
     }
 
-    fun getBreedsName(): LiveData<List<String>> {
-         return repository.getBreedsName()
-    }
+    fun getBreedsName() = repository.getBreedsName()
 
     fun searchBreedByPosition(position: Int) {
         repository.getBreeds { values ->
-            val breed = values.get(position)
-            breed.id.let { breedId ->
+            values[position].id.let { breedId ->
                 showLoading()
                 repository.getBreedsById(breedId, ::processBreedsBySearch)
             }
