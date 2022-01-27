@@ -19,14 +19,19 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String> = _messageError
 
-    private val _breeds = MutableLiveData<ArrayList<Breed>>()
-    val breeds: LiveData<ArrayList<Breed>> = _breeds
+    private val _breeds = MutableLiveData<List<Breed>>()
+    val breeds: LiveData<List<Breed>> = _breeds
 
-    private val _breedsBySearch = MutableLiveData<ArrayList<BreedResultElement>>()
-    val breedsBySearch: LiveData<ArrayList<BreedResultElement>> = _breedsBySearch
+    private val _breedsBySearch = MutableLiveData<List<BreedResultElement>>()
+    val breedsBySearch: LiveData<List<BreedResultElement>> = _breedsBySearch
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
+
+    override fun onCleared() {
+        repository.cancelAllJobs()
+        super.onCleared()
+    }
 
     fun getBreeds() {
         showLoading()
@@ -34,30 +39,41 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     }
 
     fun orderByBreeds(sortBy: String) {
-        val values = repository.getBreeds()
-        val valuesSorted = when(sortBy) {
-            ORDER_BY_ASCENDING ->  values?.sortedBy { it.name }
-            else -> values?.sortedByDescending { it.name }
-        }
-        _breeds.apply {
-            val value = ArrayList<Breed>()
-            valuesSorted?.let {
-                value.addAll(valuesSorted)
+        print("orderByBreeds: $sortBy")
+
+        _breeds.value?.let { values ->
+            Log.v("orderByBreeds", "$values")
+            val valuesSorted = when(sortBy) {
+                ORDER_BY_ASCENDING -> values.sortedBy { it.name }
+                else -> values.sortedByDescending { it.name }
             }
-            postValue(value)
+            Log.v("orderByBreeds", "$sortBy | $valuesSorted")
+            _breeds.apply {
+                postValue(valuesSorted)
+            }
         }
+
+//        repository.getBreeds { values ->
+//            Log.v("orderByBreeds", "$values")
+//            val valuesSorted = when(sortBy) {
+//                ORDER_BY_ASCENDING -> values.sortedBy { it.name }
+//                else -> values.sortedByDescending { it.name }
+//            }
+//            Log.v("orderByBreeds", "$sortBy | $valuesSorted")
+//            _breeds.apply {
+//                postValue(valuesSorted)
+//            }
+//        }
     }
 
-    fun getBreedsName(): ArrayList<String> {
-        return repository.getBreedsName()
-    }
+    fun getBreedsName() = repository.getBreedsName()
 
     fun searchBreedByPosition(position: Int) {
-        val values = repository.getBreeds()
-        val breed = values?.get(position)
-        breed?.id?.let { breedId ->
-            showLoading()
-            repository.getBreedsById(breedId, ::processBreedsBySearch)
+        repository.getBreeds { values ->
+            values[position].id.run {
+                showLoading()
+                repository.getBreedsById(this, ::processBreedsBySearch)
+            }
         }
     }
 

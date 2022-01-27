@@ -1,8 +1,9 @@
 package com.mauricio.dogapichallenger.breeds.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
@@ -10,18 +11,16 @@ import com.mauricio.dogapichallenger.BR
 import com.mauricio.dogapichallenger.R
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
-import com.mauricio.dogapichallenger.utils.TextUtils
+import com.mauricio.dogapichallenger.utils.extensions.checkIsEmpty
 
-class DogBreedsRecyclerViewAdapter(
-    private val values: List<Any>, private val callback: IOnClickEvent
+class DogBreedsRecyclerViewAdapter(private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {
 
-    private lateinit var context: Context // remover esta variavel
+    val differ = AsyncListDiffer(this, DogBreedsDiffCallback())
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): DogBreedsRecyclerViewAdapter.ViewHolder {
-        context = parent.context // remover esta variavel
         return ViewHolder(
             ItemDogBreedsBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -32,19 +31,18 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
-        // melhoria do código com o with ou run
-        values[position].let { element ->
+        differ.currentList[position].run {
             holder.binding.itemDogBreed.setOnClickListener {
-                callback.onItemClicked(element)
+                callback.onItemClicked(this)
             }
-            when(element) {
-                is Breed -> holder.bind(element)
-                is BreedResultElement -> holder.bind(element)
+            when(this) {
+                is Breed -> holder.bind(this)
+                is BreedResultElement -> holder.bind(this)
             }
         }
     }
 
-    override fun getItemCount() = values.size
+    override fun getItemCount() = differ.currentList.size
 
     inner class ViewHolder(var binding: ItemDogBreedsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(breed: Breed) {
@@ -55,15 +53,27 @@ class DogBreedsRecyclerViewAdapter(
         }
         fun bind(breed: BreedResultElement) {
             binding.setVariable(BR.urlPhoto, breed.url)
-            binding.setVariable(BR.name, "${context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
-            // Melhoria
-            // Fazer o tratamento das informações na classe Breed
-            binding.setVariable(BR.breedGroup, "${context.getString(R.string.title_breed_category)}: ${TextUtils.checkIsEmpty(binding.root.context, breed.breeds[0].breedGroup)}")
-            binding.setVariable(BR.origin, "${context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty( binding.root.context, breed.breeds[0].origin)}")
-
+            binding.setVariable(BR.name, "${binding.root.context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
+            binding.setVariable(BR.breedGroup, "${binding.root.context.getString(R.string.title_breed_category)}: ${breed.breeds[0].breedGroup?.checkIsEmpty(binding.root.context)}")
+            binding.setVariable(BR.origin, "${binding.root.context.getString(R.string.title_origin)}: ${breed.breeds[0].origin?.checkIsEmpty(binding.root.context)}")
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()
         }
     }
 }
 
+class DogBreedsDiffCallback: DiffUtil.ItemCallback<Any>() {
+    override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+        return when(oldItem) {
+            is Breed ->  oldItem.id == (newItem as Breed).id
+            else -> (oldItem as BreedResultElement).id == (newItem as BreedResultElement).id
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+        return when(oldItem) {
+            is Breed ->  (oldItem as Breed) == (newItem as Breed)
+            else -> (oldItem as BreedResultElement) == (newItem as BreedResultElement)
+        }
+    }
+}

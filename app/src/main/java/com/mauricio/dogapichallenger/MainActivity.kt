@@ -2,6 +2,7 @@ package com.mauricio.dogapichallenger
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -42,12 +43,11 @@ class MainActivity : AppCompatActivity(), IOnClickEvent {
     }
 
     override fun onItemClicked(value: Any) {
-        val intent = Intent(this, BreedDetailActivity::class.java).apply {
-            when(value) {
-                is Breed -> putExtra(EXTRA_BREED, value)
-                is BreedResultElement -> putExtra(EXTRA_BREED, value)
-            }
+        Intent(this, BreedDetailActivity::class.java).apply {
+            val bundle = Bundle()
+            bundle.putParcelable(EXTRA_BREED, value as Parcelable)
+            putExtras(bundle)
+            startActivity(this)
         }
-        startActivity(intent)
     }
 }

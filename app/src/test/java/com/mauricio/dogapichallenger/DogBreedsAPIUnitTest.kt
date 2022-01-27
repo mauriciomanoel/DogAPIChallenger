@@ -25,10 +25,13 @@ import javax.inject.Inject
 @RunWith(RobolectricTestRunner::class)
 @Config(application = HiltTestApplication::class)
 @ExperimentalCoroutinesApi
-class DogBreedsViewModelUnitTest {
+class DogBreedsAPIUnitTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     lateinit var viewModel: DogBreedsViewModel
@@ -65,11 +68,9 @@ class DogBreedsViewModelUnitTest {
         viewModel.getBreeds()
         delay(3000)
         assertNotNull(viewModel.breeds.value)
-        val breeds = viewModel.breeds.value
-        val breed = breeds?.get(0)
+        val breed = viewModel.breeds.value?.get(0)
         viewModel.orderByBreeds(ORDER_BY_DESCENDING)
-        val breedsAfterOrder = viewModel.breeds.value
-        val breedAfterOrder = breedsAfterOrder?.get(0)
+        val breedAfterOrder = viewModel.breeds.value?.get(0)
         assertNotEquals(breed?.name, breedAfterOrder?.name)
     }
 

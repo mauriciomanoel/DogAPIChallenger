@@ -1,6 +1,7 @@
 package com.mauricio.dogapichallenger.di.module
 
 import android.app.Application
+import android.content.Context
 import com.mauricio.dogapichallenger.BuildConfig
 import com.mauricio.dogapichallenger.network.HttpHeadersInterceptor
 import com.mauricio.dogapichallenger.network.RetrofitApiService
@@ -8,6 +9,7 @@ import com.mauricio.dogapichallenger.utils.network.ConnectionNetworkUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -38,7 +40,7 @@ object NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         headersInterceptor: HttpHeadersInterceptor,
         cache: Cache,
-        application: Application): OkHttpClient = OkHttpClient.Builder()
+        connectionNetwork: ConnectionNetworkUtils): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(5, TimeUnit.SECONDS)
         .writeTimeout(5, TimeUnit.SECONDS)
         .readTimeout(5, TimeUnit.SECONDS)
@@ -47,7 +49,7 @@ object NetworkModule {
         .cache(cache)
         .addInterceptor { chain ->
             var request = chain.request()
-            request = if (ConnectionNetworkUtils.isOnline(application))
+            request = if (connectionNetwork.isOnline())
                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
             else
                 request.newBuilder().header("Cache-Control", "public, only-if-cached").build()
@@ -73,6 +75,12 @@ object NetworkModule {
     fun provideCacheFile(context: Application): Cache {
         val cacheSize = (5 * 1024 * 1024).toLong() // 5 MB
         return Cache(context.cacheDir, cacheSize)
+    }
+
+    @Singleton
+    @Provides
+    fun provideConnectionNetworkUtils(@ApplicationContext appContext: Context): ConnectionNetworkUtils {
+        return ConnectionNetworkUtils(appContext)
     }
 }
 

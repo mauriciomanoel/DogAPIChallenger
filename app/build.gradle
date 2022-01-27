@@ -13,7 +13,7 @@ android {
         minSdk 21
         targetSdk 31
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -100,5 +100,16 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide_version"
     kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
+
+    implementation("androidx.room:room-runtime:$versions.room_version")
+//    annotationProcessor("androidx.room:room-compiler:$versions.room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$versions.room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$versions.room_version")
+
+    testImplementation("androidx.room:room-testing:$versions.room_version")
+
 
 }
