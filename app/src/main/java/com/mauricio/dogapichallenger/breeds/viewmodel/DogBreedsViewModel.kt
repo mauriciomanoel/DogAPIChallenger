@@ -19,11 +19,11 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String> = _messageError
 
-    private val _breeds = MutableLiveData<ArrayList<Breed>>()
-    val breeds: LiveData<ArrayList<Breed>> = _breeds
+    private val _breeds = MutableLiveData<List<Breed>>()
+    val breeds: LiveData<List<Breed>> = _breeds
 
-    private val _breedsBySearch = MutableLiveData<ArrayList<BreedResultElement>>()
-    val breedsBySearch: LiveData<ArrayList<BreedResultElement>> = _breedsBySearch
+    private val _breedsBySearch = MutableLiveData<List<BreedResultElement>>()
+    val breedsBySearch: LiveData<List<BreedResultElement>> = _breedsBySearch
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading: LiveData<Boolean> = _showLoading
@@ -45,11 +45,7 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
                 else -> values.sortedByDescending { it.name }
             }
             _breeds.apply {
-                val value = ArrayList<Breed>()
-                valuesSorted.let {
-                    value.addAll(valuesSorted)
-                }
-                postValue(value)
+                postValue(valuesSorted)
             }
         }
     }

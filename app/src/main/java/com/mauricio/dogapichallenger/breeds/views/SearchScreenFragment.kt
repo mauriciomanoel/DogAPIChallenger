@@ -26,7 +26,6 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     private var _binding: FragmentSearchScreenBinding? = null
     private lateinit var mContext: Context
     private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
-    private val listBreeds = ArrayList<BreedResultElement>()
     private var callback: IOnClickEvent? = null
 
     // This property is only valid between onCreateView and
@@ -63,12 +62,9 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     }
 
     private fun initObservers() {
-
         with(viewModel) {
             breedsBySearch.observe(viewLifecycleOwner, {
-                listBreeds.clear()
-                listBreeds.addAll(it)
-                breedsAdapter.notifyDataSetChanged()
+                breedsAdapter.differ.submitList(it)
             })
             showLoading.observe(viewLifecycleOwner, { showLoading ->
                 binding.showLoading = showLoading
@@ -80,7 +76,7 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     }
 
     private fun initAdapters() {
-        breedsAdapter = DogBreedsRecyclerViewAdapter(listBreeds, this)
+        breedsAdapter = DogBreedsRecyclerViewAdapter(this)
         binding.breedsAdapter = breedsAdapter
     }
 

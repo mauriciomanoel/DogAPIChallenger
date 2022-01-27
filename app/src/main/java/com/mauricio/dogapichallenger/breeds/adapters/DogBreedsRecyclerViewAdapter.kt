@@ -2,6 +2,7 @@ package com.mauricio.dogapichallenger.breeds.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.databinding.ItemDogBreedsBinding
@@ -11,11 +12,10 @@ import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.utils.TextUtils
 
-// melhorias: ADD diffutils
-class DogBreedsRecyclerViewAdapter(
-    private val values: List<Any>, private val callback: IOnClickEvent
+class DogBreedsRecyclerViewAdapter(private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {
 
+    val differ = AsyncListDiffer(this, DogBreedsDiffCallback())
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -30,7 +30,7 @@ class DogBreedsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DogBreedsRecyclerViewAdapter.ViewHolder, position: Int) {
-        values[position].run {
+        differ.currentList[position].run {
             holder.binding.itemDogBreed.setOnClickListener {
                 callback.onItemClicked(this)
             }
@@ -41,7 +41,7 @@ class DogBreedsRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount() = values.size
+    override fun getItemCount() = differ.currentList.size
 
     inner class ViewHolder(var binding: ItemDogBreedsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(breed: Breed) {

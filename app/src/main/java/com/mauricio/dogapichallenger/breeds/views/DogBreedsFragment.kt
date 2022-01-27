@@ -28,7 +28,6 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
 
     private var _binding: FragmentDogBreedsBinding? = null
     private lateinit var breedsAdapter: DogBreedsRecyclerViewAdapter
-    private val listBreeds = ArrayList<Breed>()
     private lateinit var mContext: Context
     private var callback: IOnClickEvent? = null
     private lateinit var gridViewFormat: ImageView
@@ -100,9 +99,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     private fun initObservers() {
         with(viewModel) {
             breeds.observe(viewLifecycleOwner, {
-                listBreeds.clear()
-                listBreeds.addAll(it)
-                breedsAdapter.notifyDataSetChanged()
+                breedsAdapter.differ.submitList(it)
             })
             showLoading.observe(viewLifecycleOwner, { showLoading ->
                 binding.showLoading = showLoading
@@ -114,7 +111,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
     }
 
     private fun initAdapters() {
-        breedsAdapter = DogBreedsRecyclerViewAdapter(listBreeds, this)
+        breedsAdapter = DogBreedsRecyclerViewAdapter(this)
         binding.breedsAdapter = breedsAdapter
     }
 
