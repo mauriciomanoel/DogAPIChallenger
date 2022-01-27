@@ -54,9 +54,9 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
 
     fun searchBreedByPosition(position: Int) {
         repository.getBreeds { values ->
-            values[position].id.let { breedId ->
+            values[position].id.run {
                 showLoading()
-                repository.getBreedsById(breedId, ::processBreedsBySearch)
+                repository.getBreedsById(this, ::processBreedsBySearch)
             }
         }
     }
