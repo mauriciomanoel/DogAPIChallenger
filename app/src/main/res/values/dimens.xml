@@ -7,4 +7,5 @@
     <dimen name="margin_start">16dp</dimen>
     <dimen name="margin_bottom">16dp</dimen>
     <dimen name="layout_width_dog_breed">240dp</dimen>
+    <dimen name="margin_bottom_recycler_view">60dp</dimen>
 </resources>

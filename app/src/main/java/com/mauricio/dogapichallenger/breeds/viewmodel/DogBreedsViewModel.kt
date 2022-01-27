@@ -39,15 +39,31 @@ class DogBreedsViewModel @Inject constructor(val repository: BreedsRepository) :
     }
 
     fun orderByBreeds(sortBy: String) {
-        repository.getBreeds { values ->
+        print("orderByBreeds: $sortBy")
+
+        _breeds.value?.let { values ->
+            Log.v("orderByBreeds", "$values")
             val valuesSorted = when(sortBy) {
-                ORDER_BY_ASCENDING ->  values.sortedBy { it.name }
+                ORDER_BY_ASCENDING -> values.sortedBy { it.name }
                 else -> values.sortedByDescending { it.name }
             }
+            Log.v("orderByBreeds", "$sortBy | $valuesSorted")
             _breeds.apply {
                 postValue(valuesSorted)
             }
         }
+
+//        repository.getBreeds { values ->
+//            Log.v("orderByBreeds", "$values")
+//            val valuesSorted = when(sortBy) {
+//                ORDER_BY_ASCENDING -> values.sortedBy { it.name }
+//                else -> values.sortedByDescending { it.name }
+//            }
+//            Log.v("orderByBreeds", "$sortBy | $valuesSorted")
+//            _breeds.apply {
+//                postValue(valuesSorted)
+//            }
+//        }
     }
 
     fun getBreedsName() = repository.getBreedsName()

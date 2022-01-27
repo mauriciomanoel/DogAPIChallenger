@@ -21,9 +21,6 @@ import javax.inject.Singleton
 object RepositoryModule {
 
     @Provides
-    fun provideDatabase(application: Application) = BreedRoomDB.getDatabase(application).breedDao()
-
-    @Provides
     @ViewModelScoped
     fun provideBreedsRepository(apiService: RetrofitApiService, breedDao: BreedDao) = BreedsRepository(apiService, breedDao)
 }

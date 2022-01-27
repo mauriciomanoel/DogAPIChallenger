@@ -58,7 +58,11 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
         }
     }
 
-    fun getBreeds(process: (values: ArrayList<Breed>) -> Unit) = getBreedsFromDatabase { process(it) }
+    fun getBreeds(process: (values: ArrayList<Breed>) -> Unit)  {
+         getBreedsFromDatabase {
+             process(it)
+         }
+    }
 
     fun getBreedsName(): LiveData<List<String>> {
         val _breeds = MutableLiveData<List<String>>()
@@ -81,7 +85,7 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     }
 
     private fun getBreedsFromDatabase(process: (values: ArrayList<Breed>) -> Unit) {
-        CoroutineScope(Dispatchers.IO).async { process(ArrayList(breedDao.getBreeds())) }
+        jobs.add(CoroutineScope(Dispatchers.IO).async { process(ArrayList(breedDao.getBreeds())) })
     }
 
     // Send information to backend
