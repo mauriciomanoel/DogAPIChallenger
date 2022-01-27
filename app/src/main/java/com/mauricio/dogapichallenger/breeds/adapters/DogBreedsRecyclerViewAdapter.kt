@@ -77,4 +77,3 @@ class DogBreedsDiffCallback: DiffUtil.ItemCallback<Any>() {
         }
     }
 }
-

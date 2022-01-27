@@ -59,9 +59,9 @@ class BreedsRepository @Inject constructor(private val apiService: RetrofitApiSe
     }
 
     fun getBreeds(process: (values: ArrayList<Breed>) -> Unit)  {
-         getBreedsFromDatabase {
-             process(it)
-         }
+        getBreedsFromDatabase {
+            process(it)
+        }
     }
 
     fun getBreedsName(): LiveData<List<String>> {

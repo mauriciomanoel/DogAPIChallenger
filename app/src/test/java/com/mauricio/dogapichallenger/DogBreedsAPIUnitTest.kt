@@ -59,6 +59,7 @@ class DogBreedsAPIUnitTest {
         viewModel.getBreeds()
         delay(2000)
         assertNotNull(viewModel.breeds.value)
+        // melhoria: gerar uma base de dados de informações
         assertEquals(172, viewModel.breeds.value?.size)
     }
 

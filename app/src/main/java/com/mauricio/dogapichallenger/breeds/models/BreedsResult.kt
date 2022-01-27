@@ -173,4 +173,3 @@ data class Image (
 }
 
 const val EXTRA_BREED = "b675ef83cf570511c834bf4412a142c263187441"
-
