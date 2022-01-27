@@ -21,6 +21,7 @@
 - Retrofit
 - Data Bindind
 - Coroutines
-- Dependency Injection with Hilt
+- Dependency Injection: Hilt
 - Glide
 - Gson
+- Room Database
