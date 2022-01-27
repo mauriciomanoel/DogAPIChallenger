@@ -11,6 +11,7 @@ import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
 import com.mauricio.dogapichallenger.utils.TextUtils
 
+// melhorias: ADD diffutils
 class DogBreedsRecyclerViewAdapter(
     private val values: List<Any>, private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {

@@ -20,10 +20,6 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 object RepositoryModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideContext(@ApplicationContext appContext: Context) = appContext
-
     @Provides
     fun provideDatabase(application: Application) = BreedRoomDB.getDatabase(application).breedDao()
 
