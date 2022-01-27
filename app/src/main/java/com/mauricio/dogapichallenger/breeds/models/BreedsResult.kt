@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
 typealias BreedsResult = ArrayList<Breed>
 typealias BreedsByIdResult = ArrayList<BreedResultElement>
 
-// Better this code to use Parcelable
 data class BreedResultElement (
     val breeds: List<Breed>,
     val height: Long,
@@ -57,9 +56,9 @@ data class Breed (
     @PrimaryKey @ColumnInfo(name = "id")
     val id: Long,
     val image: Image? = null,
-    val lifeSpan: String? = null,
+    val lifeSpan: String? = "",
     val name: String,
-    val origin: String? = null,
+    val origin: String? = "",
     @SerializedName("reference_image_id")
     val referenceImageID: String? = null,
     val temperament: String? = null,
@@ -70,9 +69,9 @@ data class Breed (
         parcel.readParcelable(Eight::class.java.classLoader),
         parcel.readLong(),
         parcel.readParcelable(Image::class.java.classLoader),
-        parcel.readString(),
         parcel.readString() ?: "",
-        parcel.readString(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString(),
         parcel.readString(),
         parcel.readParcelable(Eight::class.java.classLoader)

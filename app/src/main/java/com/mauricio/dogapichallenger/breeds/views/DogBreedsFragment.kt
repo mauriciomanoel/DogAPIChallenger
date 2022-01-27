@@ -100,6 +100,7 @@ class DogBreedsFragment : Fragment(), IOnClickEvent {
         with(viewModel) {
             breeds.observe(viewLifecycleOwner, {
                 breedsAdapter.differ.submitList(it)
+//                binding.breedsRecyclerView.scrollToPosition(0)
             })
             showLoading.observe(viewLifecycleOwner, { showLoading ->
                 binding.showLoading = showLoading

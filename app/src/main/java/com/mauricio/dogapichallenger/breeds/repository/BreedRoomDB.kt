@@ -3,9 +3,8 @@ package com.mauricio.dogapichallenger.breeds.repository
 import android.content.Context
 import androidx.room.*
 import com.mauricio.dogapichallenger.breeds.models.Breed
-import com.mauricio.dogapichallenger.breeds.models.Eight
 import com.mauricio.dogapichallenger.breeds.models.Image
-import kotlinx.coroutines.CoroutineScope
+import com.mauricio.dogapichallenger.utils.Constant.DATABASE_NAME
 
 @Database(entities = [Image::class, Breed::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -21,7 +20,7 @@ abstract class BreedRoomDB: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     BreedRoomDB::class.java,
-                    "breed_database"
+                    DATABASE_NAME
                 ).build()
 
                 INSTANCE = instance

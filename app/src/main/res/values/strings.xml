@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dog API Challenger</string>
+    <string name="app_name">Dog Breeds</string>
     <string name="title_dog_breeds">Dog Breeds</string>
     <string name="title_search_screen">Search Screen</string>
     <string name="title_breed_name">Breed Name</string>

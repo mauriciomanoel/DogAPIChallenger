@@ -8,7 +8,7 @@ import com.mauricio.dogapichallenger.breeds.models.Breed
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.EXTRA_BREED
 import com.mauricio.dogapichallenger.databinding.ActivityBreedDetailBinding
-import com.mauricio.dogapichallenger.utils.TextUtils
+import com.mauricio.dogapichallenger.utils.extensions.checkIsEmpty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,17 +40,17 @@ class BreedDetailActivity : AppCompatActivity() {
                     urlPhoto = element.image?.url
                     breedName.text = element.name
                     breedCategory.text = element.breedGroup
-                    origin.text = TextUtils.checkIsEmpty(context, element.origin)
-                    temperament.text = TextUtils.checkIsEmpty(context, element.temperament)
+                    origin.text = element.origin?.checkIsEmpty(context)
+                    temperament.text = element.temperament?.checkIsEmpty(context)
                 }
             }
             is BreedResultElement -> {
                 with(binding) {
                     urlPhoto = element.url
-                    breedName.text = element.breeds.get(0).name
-                    breedCategory.text = element.breeds.get(0).breedGroup
-                    origin.text = TextUtils.checkIsEmpty(context, element.breeds[0].origin)
-                    temperament.text = TextUtils.checkIsEmpty(context, element.breeds.get(0).temperament)
+                    breedName.text = element.breeds[0].name
+                    breedCategory.text = element.breeds[0].breedGroup
+                    origin.text = element.breeds[0].origin?.checkIsEmpty(context)
+                    temperament.text = element.breeds[0].temperament?.checkIsEmpty(context)
                 }
             }
         }

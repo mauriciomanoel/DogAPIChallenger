@@ -1,10 +1,10 @@
 package com.mauricio.dogapichallenger.breeds.repository
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.mauricio.dogapichallenger.breeds.models.Eight
 import com.mauricio.dogapichallenger.breeds.models.Image
+import com.mauricio.dogapichallenger.utils.extensions.fromGson
+import com.mauricio.dogapichallenger.utils.extensions.toGson
 
 class Converters {
 
@@ -32,7 +32,3 @@ class Converters {
         }
     }
 }
-
-fun <T> String.fromGson(classOfT: Class<T>) = Gson().fromJson(this, classOfT)
-
-fun Any.toGson() = Gson().toJson(this)

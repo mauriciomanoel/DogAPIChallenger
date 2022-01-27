@@ -10,7 +10,7 @@ import com.mauricio.dogapichallenger.BR
 import com.mauricio.dogapichallenger.R
 import com.mauricio.dogapichallenger.breeds.models.BreedResultElement
 import com.mauricio.dogapichallenger.breeds.models.IOnClickEvent
-import com.mauricio.dogapichallenger.utils.TextUtils
+import com.mauricio.dogapichallenger.utils.extensions.checkIsEmpty
 
 class DogBreedsRecyclerViewAdapter(private val callback: IOnClickEvent
 ) : RecyclerView.Adapter<DogBreedsRecyclerViewAdapter.ViewHolder>() {
@@ -53,8 +53,8 @@ class DogBreedsRecyclerViewAdapter(private val callback: IOnClickEvent
         fun bind(breed: BreedResultElement) {
             binding.setVariable(BR.urlPhoto, breed.url)
             binding.setVariable(BR.name, "${binding.root.context.getString(R.string.title_breed_name)}: ${breed.breeds[0].name}")
-            binding.setVariable(BR.breedGroup, "${binding.root.context.getString(R.string.title_breed_category)}: ${TextUtils.checkIsEmpty(binding.root.context, breed.breeds[0].breedGroup)}")
-            binding.setVariable(BR.origin, "${binding.root.context.getString(R.string.title_origin)}: ${TextUtils.checkIsEmpty(binding.root.context, breed.breeds[0].origin)}")
+            binding.setVariable(BR.breedGroup, "${binding.root.context.getString(R.string.title_breed_category)}: ${breed.breeds[0].breedGroup?.checkIsEmpty(binding.root.context)}")
+            binding.setVariable(BR.origin, "${binding.root.context.getString(R.string.title_origin)}: ${breed.breeds[0].origin?.checkIsEmpty(binding.root.context)}")
             binding.setVariable(BR.showDetails, true)
             binding.executePendingBindings()
         }
