@@ -32,7 +32,7 @@
                 <ImageView
                     android:id="@+id/imageBreed"
                     src_url="@{urlPhoto}"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/layout_width_dog_breed"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_top"
                     android:layout_gravity="center"

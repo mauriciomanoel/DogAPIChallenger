@@ -30,21 +30,4 @@ abstract class BreedRoomDB: RoomDatabase() {
             }
         }
     }
-
-//        private class BreeItemCallback(val scope: CoroutineScope):RoomDatabase.Callback(){
-//            override fun onCreate(db: SupportSQLiteDatabase) {
-//                super.onCreate(db)
-//
-//                INSTANCE?.let { foodItemRoomDB ->
-//                    scope.launch {
-//                        // if you want to populate database
-//                        // when RoomDatabase is created
-//                        // populate here
-//                        foodItemRoomDB.breedDao() .insert(Image("1", 2, "Mango1",100))
-//                        foodItemRoomDB.breedDao() .insert(Image("2", 3, "Mango2",100))
-//                        foodItemRoomDB.breedDao() .insert(Image("3", 4, "Mango3",100))
-//                    }
-//                }
-//            }
-//        }
 }

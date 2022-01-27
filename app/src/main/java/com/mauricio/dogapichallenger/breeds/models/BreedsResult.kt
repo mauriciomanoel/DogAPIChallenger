@@ -8,6 +8,7 @@ import java.io.Serializable
 typealias BreedsResult = ArrayList<Breed>
 typealias BreedsByIdResult = ArrayList<BreedResultElement>
 
+// Better this code to use Parcelable
 data class BreedResultElement (
     val breeds: List<Breed>,
     val height: Long,

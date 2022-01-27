@@ -1,5 +1,6 @@
 package com.mauricio.dogapichallenger.breeds.views
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BreedDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBreedDetailBinding
+    private lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,7 @@ class BreedDetailActivity : AppCompatActivity() {
 
         binding = ActivityBreedDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        context = this
 
         getBreedFromIntent()?.let { element ->
             updateView(element)
@@ -33,18 +36,22 @@ class BreedDetailActivity : AppCompatActivity() {
 
         when(element) {
             is Breed -> {
-                binding.urlPhoto = element.image?.url
-                binding.breedName.text = element.name
-                binding.breedCategory.text = element.breedGroup
-                binding.origin.text = TextUtils.checkIsEmpty(this, element.origin)
-                binding.temperament.text = TextUtils.checkIsEmpty(this, element.temperament)
+                with(binding) {
+                    urlPhoto = element.image?.url
+                    breedName.text = element.name
+                    breedCategory.text = element.breedGroup
+                    origin.text = TextUtils.checkIsEmpty(context, element.origin)
+                    temperament.text = TextUtils.checkIsEmpty(context, element.temperament)
+                }
             }
             is BreedResultElement -> {
-                binding.urlPhoto = element.url
-                binding.breedName.text = element.breeds.get(0).name
-                binding.breedCategory.text = element.breeds.get(0).breedGroup
-                binding.origin.text = TextUtils.checkIsEmpty(this, element.breeds[0].origin)
-                binding.temperament.text = TextUtils.checkIsEmpty(this, element.breeds.get(0).temperament)
+                with(binding) {
+                    urlPhoto = element.url
+                    breedName.text = element.breeds.get(0).name
+                    breedCategory.text = element.breeds.get(0).breedGroup
+                    origin.text = TextUtils.checkIsEmpty(context, element.breeds[0].origin)
+                    temperament.text = TextUtils.checkIsEmpty(context, element.breeds.get(0).temperament)
+                }
             }
         }
     }

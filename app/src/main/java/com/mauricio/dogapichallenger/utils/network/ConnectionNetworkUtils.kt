@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import javax.inject.Inject
 
-// Injetar o contexto no código
-object ConnectionNetworkUtils {
-    @JvmStatic
-    fun isOnline(context: Context): Boolean {
+class ConnectionNetworkUtils @Inject constructor(private val context: Context) {
+
+    fun isOnline(): Boolean {
         var result = false
         try {
             val connectivityManager =
@@ -37,7 +37,7 @@ object ConnectionNetworkUtils {
                 }
             }
         } catch (e: Exception) {
-            result = true
+            result = false
         }
 
         return result

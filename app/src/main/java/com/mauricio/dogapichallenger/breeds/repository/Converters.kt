@@ -21,19 +21,16 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun toListOfObjects1(value: String?): Image? {
-            return value?.fromGson(Image::class.java)
+        fun toListOfObjectsImage(valueImage: String?): Image? {
+            return valueImage?.fromGson(Image::class.java)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toListOfObjects(value1: String?): Eight? {
-            return value1?.fromGson(Eight::class.java)
+        fun toListOfObjectsEight(valueEight: String?): Eight? {
+            return valueEight?.fromGson(Eight::class.java)
         }
-
     }
-
-
 }
 
 fun <T> String.fromGson(classOfT: Class<T>) = Gson().fromJson(this, classOfT)

@@ -57,21 +57,26 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     }
 
     private fun initializeParameters() {
-        binding.layoutManager = Constant.LIST_VIEW_FORMAT
+        with(binding) {
+            layoutManager = Constant.LIST_VIEW_FORMAT
+        }
     }
 
     private fun initObservers() {
-        viewModel.breedsBySearch.observe(viewLifecycleOwner, {
-            listBreeds.clear()
-            listBreeds.addAll(it)
-            breedsAdapter.notifyDataSetChanged()
-        })
-        viewModel.showLoading.observe(viewLifecycleOwner, { showLoading ->
-            binding.showLoading = showLoading
-        })
-        viewModel.messageError.observe(viewLifecycleOwner, { message ->
-            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-        })
+
+        with(viewModel) {
+            breedsBySearch.observe(viewLifecycleOwner, {
+                listBreeds.clear()
+                listBreeds.addAll(it)
+                breedsAdapter.notifyDataSetChanged()
+            })
+            showLoading.observe(viewLifecycleOwner, { showLoading ->
+                binding.showLoading = showLoading
+            })
+            messageError.observe(viewLifecycleOwner, { message ->
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+            })
+        }
     }
 
     private fun initAdapters() {
@@ -102,6 +107,7 @@ class SearchScreenFragment : Fragment(), IOnClickEvent  {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        callback = null
     }
 
     override fun onItemClicked(value: Any) {
