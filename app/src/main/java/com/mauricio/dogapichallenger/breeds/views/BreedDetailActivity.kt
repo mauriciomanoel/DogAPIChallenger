@@ -30,7 +30,7 @@ class BreedDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBreedFromIntent() = intent.getSerializableExtra(EXTRA_BREED)
+    private fun getBreedFromIntent() = intent.extras?.get(EXTRA_BREED)
 
     private fun updateView(element: Any) {
 
@@ -65,4 +65,5 @@ class BreedDetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

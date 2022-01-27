@@ -102,7 +102,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$versions.glide_version"
 
     implementation("androidx.room:room-runtime:$versions.room_version")
-    annotationProcessor("androidx.room:room-compiler:$versions.room_version")
+//    annotationProcessor("androidx.room:room-compiler:$versions.room_version")
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$versions.room_version")

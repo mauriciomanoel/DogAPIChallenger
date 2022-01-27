@@ -9,7 +9,9 @@ import com.mauricio.dogapichallenger.breeds.models.BreedsResult
 import com.mauricio.dogapichallenger.network.RetrofitApiService
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class BreedsRepository @Inject constructor(private val apiService: RetrofitApiService,  private val breedDao: BreedDao) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
