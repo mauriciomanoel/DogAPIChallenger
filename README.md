@@ -15,7 +15,7 @@
 ## Architectural Pattern
 - MVVM
 
-### Dependencies Libraries
+## Dependencies Libraries
 - AndroidX
 - LiveData
 - Retrofit
@@ -26,3 +26,8 @@
 - Glide
 - Gson
 - Room Database
+
+## More Features
+- Scope Functions
+- Adapters with DiffUtil
+- Extensions
