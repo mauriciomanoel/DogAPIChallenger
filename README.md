@@ -20,6 +20,7 @@
 - LiveData
 - Retrofit
 - Data Bindind
+- RecyclerView, Adapters with DiffUtil
 - Coroutines
 - Dependency Injection: Hilt
 - Glide
