@@ -6,7 +6,7 @@
 - Execute Project in Simulator or Device with Android 5.0 or above
 
 ## Unit Test
-- you can execute with Android Studio or execute command ./gradlew DogBreedsViewModelUnitTest inside project folder 
+- you can execute with Android Studio or execute command ./gradlew DogBreedsAPIUnitTest inside project folder 
 
 ## Features
 - Show a screen with a list of dog breeds images.
@@ -20,7 +20,7 @@
 - LiveData
 - Retrofit
 - Data Bindind
-- RecyclerView, Adapters with DiffUtil
+- RecyclerView
 - Coroutines
 - Dependency Injection: Hilt
 - Glide
