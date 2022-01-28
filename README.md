@@ -1,4 +1,4 @@
-# DogAPIChallenger
+# DogBreedAPI
 
 ## Configure App
 - In Android Studio, import project in folder code
