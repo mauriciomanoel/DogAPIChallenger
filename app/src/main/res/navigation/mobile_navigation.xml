@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_dog_breeds"
-        android:name="com.mauricio.dogapichallenger.breeds.views.DogBreedsFragment"
+        android:name="com.mauricio.dogbreedapi.breeds.views.DogBreedsFragment"
         android:label="@string/title_dog_breeds"
         tools:layout="@layout/fragment_dog_breeds" />
 
     <fragment
         android:id="@+id/navigation_search_screen"
-        android:name="com.mauricio.dogapichallenger.breeds.views.SearchScreenFragment"
+        android:name="com.mauricio.dogbreedapi.breeds.views.SearchScreenFragment"
         android:label="@string/title_search_screen"
         tools:layout="@layout/fragment_search_screen" />
 

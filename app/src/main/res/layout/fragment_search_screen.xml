@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="breedsAdapter"
-            type="com.mauricio.dogapichallenger.breeds.adapters.DogBreedsRecyclerViewAdapter"/>
+            type="com.mauricio.dogbreedapi.breeds.adapters.DogBreedsRecyclerViewAdapter"/>
         <variable
             name="layoutManager"
             type="String"/>
